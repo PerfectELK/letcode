@@ -1,17 +1,61 @@
 package main
 
 import (
+	"fmt"
 	"github.com/PerfectELK/letcode/linked_list"
 	"github.com/PerfectELK/letcode/tree"
 	"strings"
 )
 
 func main() {
-
+	a := []int{1, 2, 2, 3, 4, 4, 3}
+	t := tree.SliceToTree(a)
+	fmt.Println(tree.PrintTree(t))
+	is := isSymmetric(t)
+	fmt.Println(is)
 }
 
 func isSymmetric(root *tree.TreeNode) bool {
+	path := make([]bool, 0, 100)
+	return checkNodes(root, root, path)
+}
+
+func checkNodes(current *tree.TreeNode, root *tree.TreeNode, path []bool) bool {
+	if current == nil {
+		return true
+	}
+	if len(path) != 0 {
+		isSym := checkIsNodeSymmetric(current.Val, root, path)
+		if !isSym {
+			return false
+		}
+	}
+
+	lCh := checkNodes(current.Left, root, append(path, false))
+	if !lCh {
+		return false
+	}
+	rCh := checkNodes(current.Right, root, append(path, true))
+	if !rCh {
+		return false
+	}
 	return true
+}
+
+func checkIsNodeSymmetric(val int, root *tree.TreeNode, path []bool) bool {
+	cur := root
+	for _, p := range path {
+		// reverse logic
+		if p {
+			cur = cur.Left
+		} else {
+			cur = cur.Right
+		}
+		if cur == nil {
+			return false
+		}
+	}
+	return cur.Val == val
 }
 
 func addTwoNumbers(l1 *linked_list.ListNode, l2 *linked_list.ListNode) *linked_list.ListNode {
