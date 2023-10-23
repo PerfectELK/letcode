@@ -9,9 +9,41 @@ import (
 )
 
 func main() {
-	x := 8
-	sq := mySqrt(x)
-	fmt.Println(sq)
+	x := -2147483648
+	rev := reverse(x)
+	fmt.Println(rev)
+}
+
+func reverse(x int) int {
+	if x == 0 {
+		return x
+	}
+	m := 1
+	if x < 0 {
+		x *= -1
+		m = -1
+	}
+	numAmount := int(math.Log10(float64(x)) + 1)
+	nums := make([]int, 0, 100)
+	for i := numAmount - 1; i >= 0; i-- {
+		pow := int(math.Pow(10, float64(i)))
+		n := x / pow
+		x = x % pow
+		nums = append(nums, n)
+	}
+	res := 0
+	for i := len(nums) - 1; i >= 0; i-- {
+		res += nums[i] * int(math.Pow(10, float64(i)))
+	}
+	posRes := res
+	if res < 0 {
+		posRes *= -1
+	}
+	if posRes > int(math.Pow(2, 31)-1) {
+		return 0
+	}
+	res *= m
+	return res
 }
 
 func mySqrt(x int) int {
