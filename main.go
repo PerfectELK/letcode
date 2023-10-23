@@ -4,15 +4,39 @@ import (
 	"fmt"
 	"github.com/PerfectELK/letcode/linked_list"
 	"github.com/PerfectELK/letcode/tree"
+	"math"
 	"strings"
 )
 
 func main() {
-	a := []int{1, 2, 2, 3, 4, 4, 3, 4}
-	t := tree.SliceToTree(a)
-	fmt.Println(tree.PrintTree(t))
-	is := maxDepth(t)
-	fmt.Println(is)
+	x := 8
+	sq := mySqrt(x)
+	fmt.Println(sq)
+}
+
+func mySqrt(x int) int {
+	if x == 0 {
+		return 0
+	}
+	if x == 1 {
+		return 1
+	}
+	lowest := 0
+	i := int(math.Log10(float64(x)))
+	for i < x {
+		m := i * i
+		if m == x {
+			return i
+		}
+		if m < x {
+			lowest = i
+		}
+		if m > x {
+			break
+		}
+		i++
+	}
+	return lowest
 }
 
 func maxDepth(root *tree.TreeNode) int {
