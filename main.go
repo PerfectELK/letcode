@@ -8,11 +8,36 @@ import (
 )
 
 func main() {
-	a := []int{1, 2, 2, 3, 4, 4, 3}
+	a := []int{1, 2, 2, 3, 4, 4, 3, 4}
 	t := tree.SliceToTree(a)
 	fmt.Println(tree.PrintTree(t))
-	is := isSymmetric(t)
+	is := maxDepth(t)
 	fmt.Println(is)
+}
+
+func maxDepth(root *tree.TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return int(checkDeepNodes(root, 1))
+}
+
+func checkDeepNodes(current *tree.TreeNode, depth uint16) uint16 {
+	if current.Left == nil && current.Right == nil {
+		return depth
+	}
+	var newDepth uint16
+	if current.Left != nil {
+		newDepth = checkDeepNodes(current.Left, depth+1)
+	}
+
+	if current.Right != nil {
+		rd := checkDeepNodes(current.Right, depth+1)
+		if rd > newDepth {
+			newDepth = rd
+		}
+	}
+	return newDepth
 }
 
 func isSymmetric(root *tree.TreeNode) bool {
