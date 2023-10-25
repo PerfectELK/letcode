@@ -9,9 +9,58 @@ import (
 )
 
 func main() {
-	x := -2147483648
-	rev := reverse(x)
-	fmt.Println(rev)
+	n1 := []int{1, 2}
+	n2 := []int{3, 4}
+	r := findMedianSortedArrays(n1, n2)
+	fmt.Println(r)
+}
+
+func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
+	arr := mergeSlices(nums1, nums2)
+	if len(arr)%2 != 0 {
+		return float64(arr[(len(arr) / 2)])
+	}
+
+	return float64(arr[(len(arr)/2)]+arr[(len(arr)/2)-1]) / 2
+}
+
+func mergeSlices(nums1 []int, nums2 []int) []int {
+	if len(nums1) == 0 {
+		return nums2
+	}
+	if len(nums2) == 0 {
+		return nums1
+	}
+
+	nums3 := make([]int, len(nums1)+len(nums2))
+
+	var i1, i2, i3 int
+	isN1Finish, isN2Finish := false, false
+
+	for i3 < len(nums1)+len(nums2) {
+		if isN2Finish {
+			nums3[i3] = nums1[i1]
+			i1++
+		} else if isN1Finish {
+			nums3[i3] = nums2[i2]
+			i2++
+		} else if nums2[i2] < nums1[i1] {
+			nums3[i3] = nums2[i2]
+			i2++
+			if len(nums2) == i2 {
+				isN2Finish = true
+			}
+		} else {
+			nums3[i3] = nums1[i1]
+			i1++
+			if len(nums1) == i1 {
+				isN1Finish = true
+			}
+		}
+		i3++
+	}
+
+	return nums3
 }
 
 func reverse(x int) int {
