@@ -10,15 +10,16 @@ import (
 )
 
 func main() {
-	r := myAtoi("   -42")
+	r := myAtoi("-91283472332")
 	fmt.Println(r)
 }
 
 func myAtoi(s string) int {
-	numBeginPos := -1
-	numEndPos := -1
-	nArr := make([]int, 0, len(s))
 	s = strings.TrimSpace(s)
+	if len(s) == 0 {
+		return 0
+	}
+	num := 0
 	for i, ch := range s {
 		if i == 0 && (ch == '-' || ch == '+') {
 			continue
@@ -26,47 +27,26 @@ func myAtoi(s string) int {
 		if !unicode.IsDigit(ch) {
 			break
 		}
-		if numEndPos != -1 {
-			break
+
+		num = num*10 + int(ch-'0')
+		if num > math.MaxInt32 && s[0] == '-' {
+			return math.MinInt32
+		} else if num > math.MaxInt32 {
+			return math.MaxInt32
 		}
-		if ch >= 48 && ch <= 57 && numBeginPos == -1 {
-			numBeginPos = i
-		}
-		if (ch < 48 || ch > 57) && numBeginPos != -1 {
-			numEndPos = i
-		}
-		if numBeginPos != -1 && numEndPos == -1 {
-			nArr = append(nArr, int(ch-'0'))
-		}
-		if i == len(s)-1 && numEndPos == -1 {
-			numEndPos = i + 1
-		}
-	}
-	if numBeginPos == -1 {
-		return 0
-	}
-	e := len(nArr) - 1
-	rNum := 0
-	for i, num := range nArr {
-		if num != 0 && len(nArr)-i > 10 {
-			rNum = math.MaxInt
-			break
-		}
-		rNum += num * int(math.Pow(10, float64(e)))
-		e--
 	}
 
-	if numBeginPos != 0 && s[numBeginPos-1] == '-' {
-		rNum *= -1
+	if s[0] == '-' {
+		num *= -1
 	}
-	if rNum < 0 && rNum < math.MinInt32 {
+	if num < 0 && num < math.MinInt32 {
 		return math.MinInt32
 	}
-	if rNum > 0 && rNum > math.MaxInt32 {
+	if num > 0 && num > math.MaxInt32 {
 		return math.MaxInt32
 	}
 
-	return rNum
+	return num
 }
 
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
