@@ -10,8 +10,33 @@ import (
 )
 
 func main() {
-	r := myAtoi("-91283472332")
+	r := removeDuplicates([]int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4})
 	fmt.Println(r)
+}
+
+func removeDuplicates(nums []int) int {
+	if len(nums) == 1 {
+		return 1
+	}
+	containMap := make(map[int]bool)
+	insertIndex := -1
+	for i, num := range nums {
+		if _, ok := containMap[num]; !ok {
+			containMap[num] = true
+			if insertIndex != -1 {
+				nums[insertIndex] = num
+				insertIndex++
+			}
+		} else {
+			if insertIndex == -1 {
+				insertIndex = i
+			}
+		}
+	}
+	if insertIndex == -1 {
+		return len(nums)
+	}
+	return insertIndex
 }
 
 func myAtoi(s string) int {
