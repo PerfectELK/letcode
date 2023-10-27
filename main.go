@@ -6,13 +6,67 @@ import (
 	"github.com/PerfectELK/letcode/tree"
 	"math"
 	"strings"
+	"unicode"
 )
 
 func main() {
-	n1 := []int{1, 2}
-	n2 := []int{3, 4}
-	r := findMedianSortedArrays(n1, n2)
+	r := myAtoi("   -42")
 	fmt.Println(r)
+}
+
+func myAtoi(s string) int {
+	numBeginPos := -1
+	numEndPos := -1
+	nArr := make([]int, 0, len(s))
+	s = strings.TrimSpace(s)
+	for i, ch := range s {
+		if i == 0 && (ch == '-' || ch == '+') {
+			continue
+		}
+		if !unicode.IsDigit(ch) {
+			break
+		}
+		if numEndPos != -1 {
+			break
+		}
+		if ch >= 48 && ch <= 57 && numBeginPos == -1 {
+			numBeginPos = i
+		}
+		if (ch < 48 || ch > 57) && numBeginPos != -1 {
+			numEndPos = i
+		}
+		if numBeginPos != -1 && numEndPos == -1 {
+			nArr = append(nArr, int(ch-'0'))
+		}
+		if i == len(s)-1 && numEndPos == -1 {
+			numEndPos = i + 1
+		}
+	}
+	if numBeginPos == -1 {
+		return 0
+	}
+	e := len(nArr) - 1
+	rNum := 0
+	for i, num := range nArr {
+		if num != 0 && len(nArr)-i > 10 {
+			rNum = math.MaxInt
+			break
+		}
+		rNum += num * int(math.Pow(10, float64(e)))
+		e--
+	}
+
+	if numBeginPos != 0 && s[numBeginPos-1] == '-' {
+		rNum *= -1
+	}
+	if rNum < 0 && rNum < math.MinInt32 {
+		return math.MinInt32
+	}
+	if rNum > 0 && rNum > math.MaxInt32 {
+		return math.MaxInt32
+	}
+
+	return rNum
 }
 
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
