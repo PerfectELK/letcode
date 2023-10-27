@@ -39,12 +39,6 @@ func myAtoi(s string) int {
 	if s[0] == '-' {
 		num *= -1
 	}
-	if num < 0 && num < math.MinInt32 {
-		return math.MinInt32
-	}
-	if num > 0 && num > math.MaxInt32 {
-		return math.MaxInt32
-	}
 
 	return num
 }
