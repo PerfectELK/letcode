@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/PerfectELK/letcode/linked_list"
 	"github.com/PerfectELK/letcode/tree"
 	"math"
@@ -10,8 +9,10 @@ import (
 )
 
 func main() {
-	r := removeDuplicates([]int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4})
-	fmt.Println(r)
+}
+
+func plusOne(digits []int) []int {
+
 }
 
 func removeDuplicates(nums []int) int {
