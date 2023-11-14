@@ -10,8 +10,58 @@ import (
 )
 
 func main() {
-	r := plusOne([]int{9})
+	r := romanToInt("V")
 	fmt.Println(r)
+}
+
+var ROMAN_MAP = map[uint8]int{
+	'I': 1,
+	'V': 5,
+	'X': 10,
+	'L': 50,
+	'C': 100,
+	'D': 500,
+	'M': 1000,
+}
+
+func romanToInt(s string) int {
+	num := 0
+	for i := 0; i < len(s); i++ {
+		ch1 := s[i]
+		var ch2 uint8
+		if i+1 < len(s) {
+			ch2 = s[i+1]
+		}
+		if ROMAN_MAP[ch2] > ROMAN_MAP[ch1] {
+			num += summRoman(ROMAN_MAP[ch1], ROMAN_MAP[ch2])
+			i++
+		} else {
+			num += ROMAN_MAP[ch1]
+		}
+	}
+	return num
+}
+
+func summRoman(ch1 int, ch2 int) int {
+	num := 0
+	if ch1 == 1 {
+		if ch2 == 5 || ch2 == 10 {
+			num = ch2 - ch1
+		}
+	}
+
+	if ch1 == 10 {
+		if ch2 == 50 || ch2 == 100 {
+			num = ch2 - ch1
+		}
+	}
+
+	if ch1 == 100 {
+		if ch2 == 500 || ch2 == 1000 {
+			num = ch2 - ch1
+		}
+	}
+	return num
 }
 
 func plusOne(digits []int) []int {
