@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	r := romanToInt("V")
+	r := romanToInt("MCMXCIV")
 	fmt.Println(r)
 }
 
@@ -33,7 +33,7 @@ func romanToInt(s string) int {
 			ch2 = s[i+1]
 		}
 		if ROMAN_MAP[ch2] > ROMAN_MAP[ch1] {
-			num += summRoman(ROMAN_MAP[ch1], ROMAN_MAP[ch2])
+			num += sumRoman(ROMAN_MAP[ch1], ROMAN_MAP[ch2])
 			i++
 		} else {
 			num += ROMAN_MAP[ch1]
@@ -42,26 +42,25 @@ func romanToInt(s string) int {
 	return num
 }
 
-func summRoman(ch1 int, ch2 int) int {
-	num := 0
+func sumRoman(ch1 int, ch2 int) int {
 	if ch1 == 1 {
 		if ch2 == 5 || ch2 == 10 {
-			num = ch2 - ch1
+			return ch2 - ch1
 		}
 	}
 
 	if ch1 == 10 {
 		if ch2 == 50 || ch2 == 100 {
-			num = ch2 - ch1
+			return ch2 - ch1
 		}
 	}
 
 	if ch1 == 100 {
 		if ch2 == 500 || ch2 == 1000 {
-			num = ch2 - ch1
+			return ch2 - ch1
 		}
 	}
-	return num
+	return 0
 }
 
 func plusOne(digits []int) []int {
