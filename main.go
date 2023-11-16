@@ -10,8 +10,12 @@ import (
 )
 
 func main() {
-	r := romanToInt("MCMXCIV")
+	r := search([]int{4, 5, 6, 7, 0, 1, 2}, 0)
 	fmt.Println(r)
+}
+
+func search(nums []int, target int) int {
+	return 0
 }
 
 var ROMAN_MAP = map[uint8]int{
