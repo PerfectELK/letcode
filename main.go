@@ -12,9 +12,12 @@ import (
 func main() {
 	//r := search([]int{4, 5, 6, 7, 0, 1, 2}, 0) // 7
 	//r := search([]int{1, 3}, 3) // 7
-	r := search([]int{1, 3, 5}, 4) // 7
+	//r := search([]int{1, 3, 5}, 4) // 7
 	//r := search([]int{3, 5, 1}, 5) // 7
 	//r := search([]int{4, 5, 6, 7, 0, 1, 2}, 2) // 7
+	//r := search([]int{6, 7, 1, 2, 3, 4, 5}, 7) // 7
+	//r := search([]int{7, 8, 1, 2, 3, 4, 5, 6}, 2) // 7
+	r := search([]int{9, 1, 2, 3, 4, 5, 6, 7, 8}, 2) // 7
 	fmt.Println(r)
 }
 
@@ -35,11 +38,11 @@ func search(nums []int, target int) int {
 		step = 1
 	}
 	lI, rI := m-step, m+step
-	llI, rrI := -1, -1
 	if rI > len(nums)-1 {
 		rI -= 1
 	}
-	for {
+
+	for i := 0; i < len(nums); i++ {
 		if lI == -1 && rI == -1 {
 			return -1
 		}
@@ -57,14 +60,13 @@ func search(nums []int, target int) int {
 		}
 
 		if lI != -1 {
-			if lI == llI {
-				lI = -1
+			if lI-1 >= 0 && nums[lI-1] > nums[lI] {
+				lI = lI - 1
 			} else if nums[lI] > target {
 				lI = lI - step
 			} else if nums[lI] < target {
 				lI = lI + step
 			}
-			llI = lI
 		}
 
 		if rI != -1 {
@@ -73,17 +75,13 @@ func search(nums []int, target int) int {
 			} else if nums[rI] > target {
 				rI = rI - step
 			}
-			if rI == rrI {
-				rI = -1
-			}
-			rrI = rI
 		}
 
-		if lI < 0 || lI > len(nums)/2 {
+		if lI < 0 || lI > len(nums)-1 {
 			lI = -1
 		}
 
-		if rI > len(nums)-1 || rI < len(nums)/2 {
+		if rI < 0 || rI > len(nums)-1 {
 			rI = -1
 		}
 
@@ -92,6 +90,7 @@ func search(nums []int, target int) int {
 			step = 1
 		}
 	}
+	return -1
 }
 
 var ROMAN_MAP = map[uint8]int{
