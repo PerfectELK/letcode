@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/PerfectELK/letcode/linked_list"
 	"github.com/PerfectELK/letcode/tree"
 	"math"
 	"strings"
@@ -10,45 +9,83 @@ import (
 )
 
 func main() {
-	l := []*linked_list.ListNode{
-		linked_list.SliceToListNodes([]int{1, 2, 3}),
-		linked_list.SliceToListNodes([]int{1, 2, 3}),
-		linked_list.SliceToListNodes([]int{1, 2, 3}),
+	l := []*ListNode{
+		SliceToListNodes([]int{1, 4, 5}),
+		SliceToListNodes([]int{1, 3, 4}),
+		SliceToListNodes([]int{2, 6}),
 	}
 	r := mergeKLists(l)
 	for {
+		fmt.Println(r)
 		if r.Next == nil {
 			break
 		}
-		fmt.Println(r.Val)
 		r = r.Next
 	}
 }
 
-func mergeKLists(lists []*linked_list.ListNode) *linked_list.ListNode {
+type ListNode struct {
+	Next *ListNode
+	Val  int
+}
+
+func SliceToListNodes(arr []int) *ListNode {
+	l := new(ListNode)
+	begin := l
+	for i, num := range arr {
+		l.Val = num
+		if i == len(arr)-1 {
+			break
+		}
+		l.Next = new(ListNode)
+		l = l.Next
+	}
+	return begin
+}
+
+func mergeKLists(lists []*ListNode) *ListNode {
 	endAmount := 0
-	retVal := linked_list.ListNode{}
-	startRetVal := &retVal
+	retVal := new(ListNode)
+	startRetVal := retVal
+	if len(lists) == 0 {
+		return nil
+	}
+	var prevVal *ListNode
 	for {
 		if endAmount == len(lists) {
 			break
 		}
-		smallest := 0
-		var smallestLink *linked_list.ListNode
+
+		smallest := math.MaxInt64
+		smallestLinkIndex := -1
 		for i := 0; i < len(lists); i++ {
+			if lists[i] == nil {
+				continue
+			}
 			if lists[i].Val < smallest {
 				smallest = lists[i].Val
-				smallestLink = lists[i]
+				smallestLinkIndex = i
 			}
 		}
-		retVal.Val = smallest
-		retVal.Next = new(linked_list.ListNode)
-
-		if smallestLink.Next == nil {
+		if smallestLinkIndex == -1 && endAmount == 0 {
+			return nil
+		}
+		if smallestLinkIndex == -1 {
 			endAmount++
-
+			continue
+		}
+		retVal.Val = smallest
+		retVal.Next = new(ListNode)
+		prevVal = retVal
+		retVal = retVal.Next
+		if lists[smallestLinkIndex].Next == nil {
+			endAmount++
+			lists[smallestLinkIndex] = nil
+		} else {
+			lists[smallestLinkIndex] = lists[smallestLinkIndex].Next
 		}
 	}
+	prevVal.Next = nil
 	return startRetVal
 }
 
@@ -461,7 +498,7 @@ func checkIsNodeSymmetric(val int, root *tree.TreeNode, path []bool) bool {
 	return cur.Val == val
 }
 
-func addTwoNumbers(l1 *linked_list.ListNode, l2 *linked_list.ListNode) *linked_list.ListNode {
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	a1 := make([]int, 0, 100)
 	a2 := make([]int, 0, 100)
 
@@ -505,18 +542,18 @@ func addTwoNumbers(l1 *linked_list.ListNode, l2 *linked_list.ListNode) *linked_l
 		a2I++
 		hArrI++
 	}
-	lr := new(linked_list.ListNode)
+	lr := new(ListNode)
 	begin := lr
 	for i, val := range hArr {
 		lr.Val = val
 		if i == len(hArr)-1 {
 			break
 		}
-		lr.Next = new(linked_list.ListNode)
+		lr.Next = new(ListNode)
 		lr = lr.Next
 	}
 	if transfer > 0 {
-		lr.Next = new(linked_list.ListNode)
+		lr.Next = new(ListNode)
 		lr = lr.Next
 		lr.Val = transfer
 	}
@@ -524,7 +561,7 @@ func addTwoNumbers(l1 *linked_list.ListNode, l2 *linked_list.ListNode) *linked_l
 	return begin
 }
 
-func mergeTwoLists(list1 *linked_list.ListNode, list2 *linked_list.ListNode) *linked_list.ListNode {
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	if list1 == nil && list2 == nil {
 		return nil
 	}
@@ -553,14 +590,14 @@ func mergeTwoLists(list1 *linked_list.ListNode, list2 *linked_list.ListNode) *li
 	return begin
 }
 
-func reverseList(head *linked_list.ListNode) *linked_list.ListNode {
+func reverseList(head *ListNode) *ListNode {
 	if head == nil {
 		return nil
 	}
 	if head.Next == nil {
 		return head
 	}
-	var prevNode *linked_list.ListNode
+	var prevNode *ListNode
 	prevNode = nil
 	current := head
 	for {
