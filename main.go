@@ -12,13 +12,44 @@ import (
 func main() {
 	l := []*linked_list.ListNode{
 		linked_list.SliceToListNodes([]int{1, 2, 3}),
+		linked_list.SliceToListNodes([]int{1, 2, 3}),
+		linked_list.SliceToListNodes([]int{1, 2, 3}),
 	}
 	r := mergeKLists(l)
-	fmt.Println(r)
+	for {
+		if r.Next == nil {
+			break
+		}
+		fmt.Println(r.Val)
+		r = r.Next
+	}
 }
 
 func mergeKLists(lists []*linked_list.ListNode) *linked_list.ListNode {
-	return nil
+	endAmount := 0
+	retVal := linked_list.ListNode{}
+	startRetVal := &retVal
+	for {
+		if endAmount == len(lists) {
+			break
+		}
+		smallest := 0
+		var smallestLink *linked_list.ListNode
+		for i := 0; i < len(lists); i++ {
+			if lists[i].Val < smallest {
+				smallest = lists[i].Val
+				smallestLink = lists[i]
+			}
+		}
+		retVal.Val = smallest
+		retVal.Next = new(linked_list.ListNode)
+
+		if smallestLink.Next == nil {
+			endAmount++
+
+		}
+	}
+	return startRetVal
 }
 
 func search(nums []int, target int) int {
