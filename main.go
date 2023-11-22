@@ -9,11 +9,42 @@ import (
 )
 
 func main() {
-	r := isValid("({[]})")
+	r := isValid("){")
 	fmt.Println(r)
 }
 
+var PARENTHESES_MAP = map[int32]int32{
+	'{': '}',
+	'}': '{',
+	'[': ']',
+	']': '[',
+	'(': ')',
+	')': '(',
+}
+
 func isValid(s string) bool {
+	nearestToClose := make([]int32, 0, len(s))
+	for _, ch := range s {
+		if _, ok := PARENTHESES_MAP[ch]; !ok {
+			return false
+		}
+
+		if ch == '{' || ch == '(' || ch == '[' {
+			nearestToClose = append(nearestToClose, ch)
+		}
+		if (ch == '}' || ch == ')' || ch == ']') && len(nearestToClose) != 0 {
+			if nearestToClose[len(nearestToClose)-1] != PARENTHESES_MAP[ch] {
+				return false
+			} else {
+				nearestToClose = nearestToClose[:len(nearestToClose)-1]
+			}
+		} else if (ch == '}' || ch == ')' || ch == ']') && len(nearestToClose) == 0 {
+			return false
+		}
+	}
+	if len(nearestToClose) != 0 {
+		return false
+	}
 	return true
 }
 
