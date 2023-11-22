@@ -9,19 +9,12 @@ import (
 )
 
 func main() {
-	l := []*ListNode{
-		SliceToListNodes([]int{1, 4, 5}),
-		SliceToListNodes([]int{1, 3, 4}),
-		SliceToListNodes([]int{2, 6}),
-	}
-	r := mergeKLists(l)
-	for {
-		fmt.Println(r)
-		if r.Next == nil {
-			break
-		}
-		r = r.Next
-	}
+	r := isValid("({[]})")
+	fmt.Println(r)
+}
+
+func isValid(s string) bool {
+	return true
 }
 
 type ListNode struct {
