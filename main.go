@@ -9,8 +9,12 @@ import (
 )
 
 func main() {
-	r := isValid("){")
+	r := searchInsert([]int{1, 2, 3, 4}, 3)
 	fmt.Println(r)
+}
+
+func searchInsert(nums []int, target int) int {
+	return 0
 }
 
 var PARENTHESES_MAP = map[int32]int32{
