@@ -9,12 +9,35 @@ import (
 )
 
 func main() {
-	r := searchInsert([]int{1, 2, 3, 4}, 3)
+	r := searchInsert([]int{1, 3, 5, 6}, 7)
 	fmt.Println(r)
 }
 
 func searchInsert(nums []int, target int) int {
-	return 0
+	searchI := len(nums)/2 - 1
+
+	step := len(nums) / 2 / 2
+
+	for {
+		if nums[searchI] == target {
+			return searchI
+		}
+
+		if nums[searchI] < target {
+			searchI += step
+		} else if nums[searchI] > target {
+			searchI -= step
+		}
+
+		if searchI >= len(nums) || searchI < 0 {
+			return len(nums)
+		}
+
+		step /= 2
+		if step == 0 {
+			step = 1
+		}
+	}
 }
 
 var PARENTHESES_MAP = map[int32]int32{
