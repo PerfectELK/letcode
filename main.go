@@ -9,34 +9,47 @@ import (
 )
 
 func main() {
-	r := searchInsert([]int{1, 3, 5, 6}, 7)
+	//r := searchInsert([]int{1, 3, 5, 6}, 2)
+	r := searchInsert([]int{1}, 2)
 	fmt.Println(r)
 }
 
 func searchInsert(nums []int, target int) int {
 	searchI := len(nums)/2 - 1
-
+	if searchI < 0 {
+		searchI = 0
+	}
 	step := len(nums) / 2 / 2
-
+	if step == 0 {
+		step = 1
+	}
+	prevValue := 0
 	for {
-		if nums[searchI] == target {
+		currVal := nums[searchI]
+		if currVal == target {
 			return searchI
 		}
 
-		if nums[searchI] < target {
+		if currVal < target {
 			searchI += step
-		} else if nums[searchI] > target {
+			if len(nums)-1 < searchI || nums[searchI] == prevValue {
+				return searchI
+			}
+		} else if currVal > target {
 			searchI -= step
-		}
-
-		if searchI >= len(nums) || searchI < 0 {
-			return len(nums)
+			if searchI < 0 {
+				return 0
+			}
+			if nums[searchI] == prevValue {
+				return searchI + 1
+			}
 		}
 
 		step /= 2
 		if step == 0 {
 			step = 1
 		}
+		prevValue = currVal
 	}
 }
 
