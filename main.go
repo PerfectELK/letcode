@@ -9,9 +9,12 @@ import (
 )
 
 func main() {
-	//r := searchInsert([]int{1, 3, 5, 6}, 2)
-	r := searchInsert([]int{1}, 2)
+	r := removeElement([]int{3, 2, 2, 3}, 3)
 	fmt.Println(r)
+}
+
+func removeElement(nums []int, val int) int {
+	return 0
 }
 
 func searchInsert(nums []int, target int) int {
