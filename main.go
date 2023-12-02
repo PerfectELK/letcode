@@ -9,8 +9,12 @@ import (
 )
 
 func main() {
-	r := removeElement([]int{0, 1, 2, 2, 3, 0, 4, 2}, 2)
+	r := combinationSum([]int{2, 3, 6, 7}, 7)
 	fmt.Println(r)
+}
+
+func combinationSum(candidates []int, target int) [][]int {
+	return nil
 }
 
 func removeElement(nums []int, val int) int {
