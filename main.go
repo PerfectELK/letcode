@@ -9,12 +9,25 @@ import (
 )
 
 func main() {
-	r := removeElement([]int{3, 2, 2, 3}, 3)
+	r := removeElement([]int{0, 1, 2, 2, 3, 0, 4, 2}, 2)
 	fmt.Println(r)
 }
 
 func removeElement(nums []int, val int) int {
-	return 0
+	ret := len(nums)
+	fillIndex := -1
+	for i, v := range nums {
+		if v == val {
+			ret--
+			if fillIndex == -1 {
+				fillIndex = i
+			}
+		} else if fillIndex != -1 {
+			nums[fillIndex] = v
+			fillIndex++
+		}
+	}
+	return ret
 }
 
 func searchInsert(nums []int, target int) int {
