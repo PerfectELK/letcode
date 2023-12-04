@@ -9,15 +9,15 @@ import (
 )
 
 func main() {
-	r := combinationSum([]int{2, 3, 6, 7}, 8)
+	r := combinationSum([]int{2, 3, 6, 7}, 13) // 2 2 3 6, 7 6
 	fmt.Println(r)
 }
 
 func combinationSum(candidates []int, target int) [][]int {
 	var retArr [][]int
 
-	//var buffer []int
-	for _, candidate := range candidates {
+	candidateTable := make(map[int][]int)
+	for i, candidate := range candidates {
 		if candidate > target {
 			continue
 		}
@@ -32,7 +32,20 @@ func combinationSum(candidates []int, target int) [][]int {
 			retArr = append(retArr, pArr)
 			continue
 		}
+		for i2, candidate2 := range candidates {
+			if i == i2 {
+				continue
+			}
+			if candidate+candidate2 <= target {
+				if v, ok := candidateTable[candidate]; ok {
+					candidateTable[candidate] = append(v, candidate2)
+				} else {
+					candidateTable[candidate] = []int{candidate2}
+				}
+			}
+		}
 	}
+	fmt.Println(candidateTable)
 
 	return retArr
 }
