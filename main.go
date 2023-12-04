@@ -9,13 +9,48 @@ import (
 )
 
 func main() {
-	r := combinationSum([]int{2, 3, 6, 7}, 7)
+	r := combinationSum([]int{2, 3, 6, 7}, 8)
 	fmt.Println(r)
 }
 
 func combinationSum(candidates []int, target int) [][]int {
-	return nil
+	var retArr [][]int
+
+	//var buffer []int
+	for _, candidate := range candidates {
+		if candidate > target {
+			continue
+		}
+		if candidate == target {
+			retArr = append(retArr, []int{candidate})
+			continue
+		}
+		if target%candidate == 0 {
+			nums := target / candidate
+			pArr := make([]int, nums)
+			fillIntArr(pArr, candidate, nums)
+			retArr = append(retArr, pArr)
+			continue
+		}
+	}
+
+	return retArr
 }
+
+func fillIntArr(arr []int, num int, amount int) {
+	for i := 0; i < amount; i++ {
+		arr[i] = num
+	}
+}
+
+//func plusUntilNeedFound(n int, target int) int {
+//	for {
+//		if n == target {
+//			return
+//		}
+//		n += n
+//	}
+//}
 
 func removeElement(nums []int, val int) int {
 	ret := len(nums)
