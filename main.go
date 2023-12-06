@@ -9,53 +9,50 @@ import (
 )
 
 func main() {
-	r := combinationSum([]int{2, 3, 6, 7}, 13) // 2 2 3 6, 7 6
-	fmt.Println(r)
+	//r := combinationSum([]int{2, 3, 6, 7}, 13) // 2 2 3 6, 7 6
+	//fmt.Println(r)
+	t := []int{2, 3, 6, 7}
+	fmt.Println(t)
+	t = t[:len(t)-1]
+	fmt.Println(t)
 }
 
-func combinationSum(candidates []int, target int) [][]int {
-	var retArr [][]int
-
-	candidateTable := make(map[int][]int)
-	for i, candidate := range candidates {
-		if candidate > target {
-			continue
-		}
-		if candidate == target {
-			retArr = append(retArr, []int{candidate})
-			continue
-		}
-		if target%candidate == 0 {
-			nums := target / candidate
-			pArr := make([]int, nums)
-			fillIntArr(pArr, candidate, nums)
-			retArr = append(retArr, pArr)
-			continue
-		}
-		for i2, candidate2 := range candidates {
-			if i == i2 {
-				continue
-			}
-			if candidate+candidate2 <= target {
-				if v, ok := candidateTable[candidate]; ok {
-					candidateTable[candidate] = append(v, candidate2)
-				} else {
-					candidateTable[candidate] = []int{candidate2}
-				}
-			}
-		}
-	}
-
-	buffer := make([][]int, len(candidateTable))
-	for key, arr := range candidateTable {
-		keyArr := []int{key}
-		for i := 0; i < len(arr); {
-
-		}
-	}
-
-	return retArr
-}
+//func combinationSum(candidates []int, target int) [][]int {
+//	var retArr [][]int
+//
+//	caseMap := make(map[int])
+//
+//	candidateTable := make(map[int][]int)
+//	for i, candidate := range candidates {
+//		if candidate > target {
+//			continue
+//		}
+//		if candidate == target {
+//			retArr = append(retArr, []int{candidate})
+//			continue
+//		}
+//		if target%candidate == 0 {
+//			nums := target / candidate
+//			pArr := make([]int, nums)
+//			fillIntArr(pArr, candidate, nums)
+//			retArr = append(retArr, pArr)
+//		}
+//		for i2, candidate2 := range candidates {
+//			if i == i2 {
+//				continue
+//			}
+//			if candidate+candidate2 <= target {
+//				if v, ok := candidateTable[candidate]; ok {
+//					candidateTable[candidate] = append(v, candidate2)
+//				} else {
+//					candidateTable[candidate] = []int{candidate2}
+//				}
+//			}
+//		}
+//	}
+//
+//	return retArr
+//}
 
 func sumArrays(arr1 []int, arr2 []int) int {
 	sum := 0
