@@ -45,9 +45,26 @@ func combinationSum(candidates []int, target int) [][]int {
 			}
 		}
 	}
-	fmt.Println(candidateTable)
+
+	buffer := make([][]int, len(candidateTable))
+	for key, arr := range candidateTable {
+		keyArr := []int{key}
+
+		for i := 0; i < len(arr); {
+
+		}
+	}
 
 	return retArr
+}
+
+func plusAllInArrWithNum(nums []int, plus int) int {
+	ret := 0
+	for _, val := range nums {
+		ret += val
+	}
+	ret += plus
+	return ret
 }
 
 func fillIntArr(arr []int, num int, amount int) {
