@@ -9,50 +9,36 @@ import (
 )
 
 func main() {
-	//r := combinationSum([]int{2, 3, 6, 7}, 13) // 2 2 3 6, 7 6
-	//fmt.Println(r)
-	t := []int{2, 3, 6, 7}
-	fmt.Println(t)
-	t = t[:len(t)-1]
-	fmt.Println(t)
+	r := combinationSum([]int{2, 3, 6, 7}, 13) // 2 2 3 6, 7 6
+	fmt.Println(r)
 }
 
-//func combinationSum(candidates []int, target int) [][]int {
-//	var retArr [][]int
-//
-//	caseMap := make(map[int])
-//
-//	candidateTable := make(map[int][]int)
-//	for i, candidate := range candidates {
-//		if candidate > target {
-//			continue
-//		}
-//		if candidate == target {
-//			retArr = append(retArr, []int{candidate})
-//			continue
-//		}
-//		if target%candidate == 0 {
-//			nums := target / candidate
-//			pArr := make([]int, nums)
-//			fillIntArr(pArr, candidate, nums)
-//			retArr = append(retArr, pArr)
-//		}
-//		for i2, candidate2 := range candidates {
-//			if i == i2 {
-//				continue
-//			}
-//			if candidate+candidate2 <= target {
-//				if v, ok := candidateTable[candidate]; ok {
-//					candidateTable[candidate] = append(v, candidate2)
-//				} else {
-//					candidateTable[candidate] = []int{candidate2}
-//				}
-//			}
-//		}
-//	}
-//
-//	return retArr
-//}
+func combinationSum(candidates []int, target int) [][]int {
+	var retArr [][]int
+	if len(candidates) == 0 {
+		return retArr
+	}
+	combine(&retArr, candidates, []int{}, target, 0, 0)
+	return retArr
+}
+
+func combine(retArr *[][]int, candidates []int, tmp []int, target int, sum int, idx int) {
+	if sum > target || idx > len(candidates) {
+		return
+	}
+
+	if sum == target {
+		nTmp := make([]int, len(tmp))
+		copy(nTmp, tmp)
+		*retArr = append(*retArr, nTmp)
+	}
+
+	for ; idx < len(candidates); idx++ {
+		tmp = append(tmp, candidates[idx])
+		combine(retArr, candidates, tmp, target, candidates[idx]+sum, idx)
+		tmp = tmp[:len(tmp)-1]
+	}
+}
 
 func sumArrays(arr1 []int, arr2 []int) int {
 	sum := 0
