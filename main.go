@@ -9,12 +9,51 @@ import (
 )
 
 func main() {
-	r := multiply("2", "3")
+	r := multiply("498828660196", "840477629533")
 	fmt.Println(r)
 }
 
 func multiply(num1 string, num2 string) string {
-	return "6"
+	if num1 == "0" || num2 == "0" {
+		return "0"
+	}
+
+	n1 := 0
+	for _, ch := range num1 {
+		n := int(ch - '0')
+		n1 = (n1 * 10) + n
+	}
+
+	n2 := 0
+	for _, ch := range num2 {
+		n := int(ch - '0')
+		n2 = (n2 * 10) + n
+	}
+
+	res := int64(n1) * int64(n2)
+	str := make([]byte, 0, len(num1)+len(num2))
+	for res != 0 {
+		rem := res % 10
+		var ch int64
+		if rem > 9 {
+			ch = rem - 10 + 'a'
+		} else {
+			ch = rem + '0'
+		}
+		str = append(str, byte(ch))
+		res /= 10
+	}
+
+	end := len(str) - 1
+	for start := 0; start < end; start++ {
+		tmp := str[start]
+		str[start] = str[end]
+		str[end] = tmp
+		end--
+	}
+	sb := strings.Builder{}
+	sb.Write(str)
+	return sb.String()
 }
 
 func combinationSum(candidates []int, target int) [][]int {
