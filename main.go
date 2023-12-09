@@ -9,8 +9,12 @@ import (
 )
 
 func main() {
-	r := combinationSum([]int{2, 3, 6, 7}, 13) // 2 2 3 6, 7 6
+	r := multiply("2", "3")
 	fmt.Println(r)
+}
+
+func multiply(num1 string, num2 string) string {
+	return "6"
 }
 
 func combinationSum(candidates []int, target int) [][]int {
