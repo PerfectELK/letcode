@@ -9,9 +9,64 @@ import (
 )
 
 func main() {
-	//r := addStrings("498828660196", "840477629533")
-	r := addStrings("1", "9")
+	//r := multiply("123456", "4563")
+	r := multiply("498828660196", "840477629533")
 	fmt.Println(r)
+}
+
+func reverseByteSlice(arr []byte) {
+	end := len(arr) - 1
+	for start := 0; start < end; start++ {
+		tmp := arr[start]
+		arr[start] = arr[end]
+		arr[end] = tmp
+		end--
+	}
+}
+
+func multiply(num1 string, num2 string) string {
+	if num1 == "0" || num2 == "0" {
+		return "0"
+	}
+
+	result := ""
+	n1I := len(num1) - 1
+	transfer := 0
+	for ; n1I >= 0; n1I-- {
+		transferSB := strings.Builder{}
+		n1 := int(num1[n1I] - '0')
+
+		n2I := len(num2) - 1
+		var layerArr []byte
+		for ; n2I >= 0; n2I-- {
+			n2 := int(num2[n2I] - '0')
+
+			n3 := (n2 * n1) + transfer
+			if n3 >= 10 {
+				transfer = n3 / 10
+				n3 = n3 % 10
+			} else {
+				transfer = 0
+			}
+			layerArr = append(layerArr, byte(n3+'0'))
+		}
+		if transfer != 0 {
+			layerArr = append(layerArr, byte(transfer+'0'))
+			transfer = 0
+		}
+		reverseByteSlice(layerArr)
+		transferSB.Write(layerArr)
+		for i := len(num1) - 1; i > n1I; i-- {
+			transferSB.WriteByte('0')
+		}
+		result = addStrings(result, transferSB.String())
+	}
+
+	if transfer != 0 {
+		result = fmt.Sprintf("%d%s", transfer, result)
+	}
+
+	return result
 }
 
 func addStrings(num1 string, num2 string) string {
@@ -46,13 +101,7 @@ func addStrings(num1 string, num2 string) string {
 	if transfer != 0 {
 		str = append(str, byte(transfer+'0'))
 	}
-	end := len(str) - 1
-	for start := 0; start < end; start++ {
-		tmp := str[start]
-		str[start] = str[end]
-		str[end] = tmp
-		end--
-	}
+	reverseByteSlice(str)
 
 	sb := strings.Builder{}
 	sb.Write(str)
@@ -102,15 +151,6 @@ func fillIntArr(arr []int, num int, amount int) {
 		arr[i] = num
 	}
 }
-
-//func plusUntilNeedFound(n int, target int) int {
-//	for {
-//		if n == target {
-//			return
-//		}
-//		n += n
-//	}
-//}
 
 func removeElement(nums []int, val int) int {
 	ret := len(nums)
