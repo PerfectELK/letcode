@@ -9,9 +9,12 @@ import (
 )
 
 func main() {
-	//r := multiply("123456", "4563")
-	r := multiply("498828660196", "840477629533")
+	r := maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
 	fmt.Println(r)
+}
+
+func maxSubArray(nums []int) int {
+	return 0
 }
 
 func reverseByteSlice(arr []byte) {
