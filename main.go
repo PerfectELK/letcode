@@ -9,12 +9,43 @@ import (
 )
 
 func main() {
-	r := maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
+	r := maxSubArray([]int{-1, -100, 2, 3, 5, 6, 7, 100, -1})
 	fmt.Println(r)
 }
 
 func maxSubArray(nums []int) int {
-	return 0
+	if len(nums) == 1 {
+		return nums[0]
+	}
+
+	var sum, leftI, rightI int
+	for {
+		num := 0
+		if rightI < len(nums) {
+			num = nums[rightI]
+		}
+		if leftI == rightI {
+			if leftI == 0 {
+				sum += num
+			}
+			rightI++
+			continue
+		}
+		nSum := sum + num
+		if nSum > sum {
+			sum = nSum
+			rightI++
+		}
+		if nSum < nSum-nums[leftI] {
+			sum = nSum - nums[leftI]
+			leftI++
+		}
+		if rightI > len(nums)-1 && nSum-nums[leftI] < nSum {
+			break
+		}
+
+	}
+	return sum
 }
 
 func reverseByteSlice(arr []byte) {
