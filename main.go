@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	r := maxSubArray([]int{-1, -100, 2, 3, 5, 6, 7, 100, -1})
+	r := maxSubArray([]int{-1, -100, 2, 3, 5, 6, 7, 100, -1, -2})
 	fmt.Println(r)
 }
 
@@ -34,7 +34,6 @@ func maxSubArray(nums []int) int {
 		nSum := sum + num
 		if nSum > sum {
 			sum = nSum
-			rightI++
 		}
 		if nSum < nSum-nums[leftI] {
 			sum = nSum - nums[leftI]
@@ -43,7 +42,7 @@ func maxSubArray(nums []int) int {
 		if rightI > len(nums)-1 && nSum-nums[leftI] < nSum {
 			break
 		}
-
+		rightI++
 	}
 	return sum
 }
