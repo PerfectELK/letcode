@@ -9,13 +9,22 @@ import (
 )
 
 func main() {
-	r := maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4})
-	fmt.Println(r)
+	merge([]int{1, 2, 3, 0, 0, 0}, 3, []int{2, 5, 6}, 3)
+}
+
+func merge(nums1 []int, m int, nums2 []int, n int) {
+	i1 := 0
+	i2 := 0
+
+	for i1 < len(nums1) && i2 < len(nums2) {
+		if nums2[i2] >= nums1[i1] {
+
+		}
+	}
 }
 
 func maxSubArray(nums []int) int {
 	curSum, maxSum := nums[0], nums[0]
-
 	for i := 1; i < len(nums); i++ {
 		curSum = max(curSum+nums[i], nums[i])
 		maxSum = max(curSum, maxSum)
