@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	merge([]int{1, 2, 3, 0, 0, 0}, 3, []int{2, 5, 6}, 3)
+	merge([]int{4, 0, 0, 0, 0, 0}, 1, []int{1, 2, 3, 5, 6}, 5)
 }
 
 func merge(nums1 []int, m int, nums2 []int, n int) {
@@ -17,16 +17,31 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 		return
 	}
 	if m == 0 {
-		nums1 = nums2
+		copy(nums1, nums2)
 		return
 	}
-	i1 := 0
-	i2 := 0
-	for i1 < len(nums1) && i2 < len(nums2) {
+	i1, i2 := 0, 0
+	tmp := make([]int, 0, len(nums1))
+	for i1 < len(nums1)-n || i2 < len(nums2) {
+		if i1 >= len(nums1)-n {
+			tmp = append(tmp, nums2[i2])
+			i2++
+			continue
+		}
+		if i2 >= len(nums2) {
+			tmp = append(tmp, nums1[i1])
+			i1++
+			continue
+		}
 		if nums2[i2] >= nums1[i1] {
-
+			tmp = append(tmp, nums1[i1])
+			i1++
+		} else {
+			tmp = append(tmp, nums2[i2])
+			i2++
 		}
 	}
+	copy(nums1, tmp)
 }
 
 func maxSubArray(nums []int) int {
