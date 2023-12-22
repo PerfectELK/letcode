@@ -13,9 +13,15 @@ func main() {
 }
 
 func merge(nums1 []int, m int, nums2 []int, n int) {
+	if n == 0 {
+		return
+	}
+	if m == 0 {
+		nums1 = nums2
+		return
+	}
 	i1 := 0
 	i2 := 0
-
 	for i1 < len(nums1) && i2 < len(nums2) {
 		if nums2[i2] >= nums1[i1] {
 
