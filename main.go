@@ -9,7 +9,36 @@ import (
 )
 
 func main() {
-	merge([]int{4, 0, 0, 0, 0, 0}, 1, []int{1, 2, 3, 5, 6}, 5)
+	res := strStr("mississippi", "pi")
+	fmt.Println(res)
+}
+
+func strStr(haystack string, needle string) int {
+	if len(needle) > len(haystack) {
+		return -1
+	}
+	resI := -1
+	checkPtr := 0
+	for i := 0; i < len(haystack); {
+		ch := haystack[i]
+		if ch == needle[checkPtr] {
+			if checkPtr == 0 {
+				resI = i
+			}
+			checkPtr++
+			if checkPtr == len(needle) {
+				return resI
+			}
+		} else {
+			if resI != -1 {
+				i = resI
+			}
+			checkPtr = 0
+			resI = -1
+		}
+		i++
+	}
+	return -1
 }
 
 func merge(nums1 []int, m int, nums2 []int, n int) {
