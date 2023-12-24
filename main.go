@@ -4,13 +4,30 @@ import (
 	"fmt"
 	"github.com/PerfectELK/letcode/tree"
 	"math"
+	"strconv"
 	"strings"
 	"unicode"
 )
 
 func main() {
-	res := strStr("mississippi", "pi")
+	res := isPalindromeNum(1221)
 	fmt.Println(res)
+}
+
+func isPalindromeNum(x int) bool {
+	if x < 0 {
+		return false
+	}
+	bs := []byte(strconv.Itoa(x))
+
+	for i, end := 0, len(bs)-1; i <= end; i++ {
+		if bs[i] != bs[end] {
+			return false
+		}
+		end--
+	}
+
+	return true
 }
 
 func strStr(haystack string, needle string) int {
