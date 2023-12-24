@@ -10,8 +10,12 @@ import (
 )
 
 func main() {
-	res := isPalindromeNum(1221)
+	res := longestPalindrome("babad")
 	fmt.Println(res)
+}
+
+func longestPalindrome(s string) string {
+	return ""
 }
 
 func isPalindromeNum(x int) bool {
