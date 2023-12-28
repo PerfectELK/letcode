@@ -10,12 +10,24 @@ import (
 )
 
 func main() {
-	res := longestPalindrome("babad")
+	//res := longestPalindrome("babad")
+	//fmt.Println(res)
+	res := reverseNum(665)
 	fmt.Println(res)
 }
 
 func longestPalindrome(s string) string {
 	return ""
+}
+
+func reverseNum(num int) int {
+	res := 0
+	for num > 0 {
+		n := num % 10
+		res = (res * 10) + n
+		num /= 10
+	}
+	return res
 }
 
 func isPalindromeNum(x int) bool {
