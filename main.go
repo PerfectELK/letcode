@@ -10,9 +10,7 @@ import (
 )
 
 func main() {
-	//res := longestPalindrome("babad")
-	//fmt.Println(res)
-	res := reverseNum(665)
+	res := longestPalindrome("babad")
 	fmt.Println(res)
 }
 
