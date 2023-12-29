@@ -10,19 +10,64 @@ import (
 )
 
 func main() {
-	res := longestPalindrome("babad")
+	res := longestPalindrome("jkexvzsqshsxyytjmmhauoyrbxlgvdovlhzivkeixnoboqlfemfzytbolixqzwkfvnpacemgpotjtqokrqtnwjpjdiidduxdprngvitnzgyjgreyjmijmfbwsowbxtqkfeasjnujnrzlxmlcmmbdbgryknraasfgusapjcootlklirtilujjbatpazeihmhaprdxoucjkynqxbggruleopvdrukicpuleumbrgofpsmwopvhdbkkfncnvqamttwyvezqzswmwyhsontvioaakowannmgwjwpehcbtlzmntbmbkkxsrtzvfeggkzisxqkzmwjtbfjjxndmsjpdgimpznzojwfivgjdymtffmwtvzzkmeclquqnzngazmcfvbqfyudpyxlbvbcgyyweaakchxggflbgjplcftssmkssfinffnifsskmsstfclpjgblfggxhckaaewyygcbvblxypduyfqbvfcmzagnznquqlcemkzzvtwmfftmydjgvifwjoznzpmigdpjsmdnxjjfbtjwmzkqxsizkggefvztrsxkkbmbtnmzltbchepwjwgmnnawokaaoivtnoshywmwszqzevywttmaqvncnfkkbdhvpowmspfogrbmuelupcikurdvpoelurggbxqnykjcuoxdrpahmhiezaptabjjulitrilkltoocjpasugfsaarnkyrgbdbmmclmxlzrnjunjsaefkqtxbwoswbfmjimjyergjygzntivgnrpdxuddiidjpjwntqrkoqtjtopgmecapnvfkwzqxilobtyzfmeflqobonxiekvizhlvodvglxbryouahmmjtyyxshsqszvxekj")
 	fmt.Println(res)
 }
 
 func longestPalindrome(s string) string {
-	return ""
+	if s == "" || len(s) == 1 {
+		return s
+	}
+	beginIndex := -1
+	lastIndex := -1
+
+	checkBeginI, checkEndI := 0, 0
+	chStrArr := make([]byte, len(s))
+	for checkBeginI < len(s)-1 {
+		n := copy(chStrArr, s[checkBeginI:checkEndI+1])
+		chStr := reverseByteSliceUntil(chStrArr, n)
+		if chStr == s[checkBeginI:checkEndI+1] && (checkEndI-checkBeginI > lastIndex-beginIndex || beginIndex == -1) {
+			beginIndex, lastIndex = checkBeginI, checkEndI
+		}
+		checkEndI++
+		if checkEndI > len(s)-1 {
+			checkBeginI++
+			checkEndI = checkBeginI + 1
+		}
+	}
+
+	if beginIndex == -1 && lastIndex == -1 {
+		return ""
+	}
+
+	return s[beginIndex : lastIndex+1]
 }
+
+func reverseByteSliceUntil(arr []byte, n int) string {
+	end := n - 1
+	for start := 0; start < end; start++ {
+		tmp := arr[start]
+		arr[start] = arr[end]
+		arr[end] = tmp
+		end--
+	}
+	return string(arr[:n])
+}
+
+//func reverseByteSlice(arr []byte) {
+//	end := len(arr) - 1
+//	for start := 0; start < end; start++ {
+//		tmp := arr[start]
+//		arr[start] = arr[end]
+//		arr[end] = tmp
+//		end--
+//	}
+//}
 
 func reverseNum(num int) int {
 	res := 0
 	for num > 0 {
-		n := num % 10
-		res = (res * 10) + n
+		res = (res * 10) + num%10
 		num /= 10
 	}
 	return res
