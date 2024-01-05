@@ -10,64 +10,36 @@ import (
 )
 
 func main() {
-	//res := longestPalindrome("jkexvzsqshsxyytjmmhauoyrbxlgvdovlhzivkeixnoboqlfemfzytbolixqzwkfvnpacemgpotjtqokrqtnwjpjdiidduxdprngvitnzgyjgreyjmijmfbwsowbxtqkfeasjnujnrzlxmlcmmbdbgryknraasfgusapjcootlklirtilujjbatpazeihmhaprdxoucjkynqxbggruleopvdrukicpuleumbrgofpsmwopvhdbkkfncnvqamttwyvezqzswmwyhsontvioaakowannmgwjwpehcbtlzmntbmbkkxsrtzvfeggkzisxqkzmwjtbfjjxndmsjpdgimpznzojwfivgjdymtffmwtvzzkmeclquqnzngazmcfvbqfyudpyxlbvbcgyyweaakchxggflbgjplcftssmkssfinffnifsskmsstfclpjgblfggxhckaaewyygcbvblxypduyfqbvfcmzagnznquqlcemkzzvtwmfftmydjgvifwjoznzpmigdpjsmdnxjjfbtjwmzkqxsizkggefvztrsxkkbmbtnmzltbchepwjwgmnnawokaaoivtnoshywmwszqzevywttmaqvncnfkkbdhvpowmspfogrbmuelupcikurdvpoelurggbxqnykjcuoxdrpahmhiezaptabjjulitrilkltoocjpasugfsaarnkyrgbdbmmclmxlzrnjunjsaefkqtxbwoswbfmjimjyergjygzntivgnrpdxuddiidjpjwntqrkoqtjtopgmecapnvfkwzqxilobtyzfmeflqobonxiekvizhlvodvglxbryouahmmjtyyxshsqszvxekj")
-	//res := longestPalindrome("cbbd")
-	res := longestPalindrome("ac")
+	res := longestPalindrome("babad")
 	fmt.Println(res)
 }
 
 func longestPalindrome(s string) string {
-	if s == "" || len(s) == 1 {
+	if len(s) < 2 {
 		return s
 	}
-	beginIndex := -1
-	lastIndex := -1
 
-	checkBeginI, checkEndI := 0, len(s)-1
-	chStrArr := make([]byte, len(s))
-	for checkBeginI < len(s)-1 {
-		if beginIndex != -1 && lastIndex-beginIndex > len(s)-checkBeginI {
-			break
-		}
-		n := copy(chStrArr, s[checkBeginI:checkEndI+1])
-		chStr := reverseByteSliceUntil(chStrArr, n)
-		if chStr == s[checkBeginI:checkEndI+1] && (checkEndI-checkBeginI > lastIndex-beginIndex || beginIndex == -1) {
-			beginIndex, lastIndex = checkBeginI, checkEndI
-		}
-		checkEndI--
-		if checkEndI <= checkBeginI {
-			checkEndI = len(s) - 1
-			checkBeginI++
+	start, end := 0, 0
+	for i := 0; i < len(s); i++ {
+		len1 := expandAroundCenter(s, i, i)
+		len2 := expandAroundCenter(s, i, i+1)
+		lenMax := max(len1, len2)
+		if lenMax > end-start {
+			start = i - (lenMax-1)/2
+			end = i + lenMax/2
 		}
 	}
-
-	if beginIndex == -1 && lastIndex == -1 {
-		return ""
-	}
-
-	return s[beginIndex : lastIndex+1]
+	return s[start : end+1]
 }
 
-func reverseByteSliceUntil(arr []byte, n int) string {
-	end := n - 1
-	for start := 0; start < end; start++ {
-		tmp := arr[start]
-		arr[start] = arr[end]
-		arr[end] = tmp
-		end--
+func expandAroundCenter(s string, left, right int) int {
+	L, R := left, right
+	for L >= 0 && R < len(s) && s[L] == s[R] {
+		L--
+		R++
 	}
-	return string(arr[:n])
+	return R - L - 1
 }
-
-//func reverseByteSlice(arr []byte) {
-//	end := len(arr) - 1
-//	for start := 0; start < end; start++ {
-//		tmp := arr[start]
-//		arr[start] = arr[end]
-//		arr[end] = tmp
-//		end--
-//	}
-//}
 
 func reverseNum(num int) int {
 	res := 0
