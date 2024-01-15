@@ -10,8 +10,41 @@ import (
 )
 
 func main() {
-	res := longestPalindrome("babad")
-	fmt.Println(res)
+	ret := longestCommonPrefix([]string{"flower", "flower", "flower", "flower"})
+	//ret := longestCommonPrefix([]string{"flower", "fkow"})
+	//ret := longestCommonPrefix([]string{"ab", "a"})
+	//ret := longestCommonPrefix([]string{"a", "ab"})
+	//ret := longestCommonPrefix([]string{"aaaaabbbb", "aaaaabbbbvv"})
+	fmt.Println(ret)
+}
+
+func longestCommonPrefix(strs []string) string {
+	if len(strs) == 0 || len(strs[0]) == 0 {
+		return ""
+	}
+	if len(strs) == 1 {
+		return strs[0]
+	}
+	longest := []byte(strs[0])
+	for _, v := range strs[1:] {
+		if len(v) < len(longest) {
+			longest = longest[:len(v)]
+		}
+		for i, b := range v {
+			if i > len(longest)-1 {
+				longest = longest[:i]
+				break
+			}
+			if longest[i] != byte(b) {
+				longest = longest[:i]
+				break
+			}
+		}
+		if len(longest) == 0 {
+			return ""
+		}
+	}
+	return string(longest)
 }
 
 func longestPalindrome(s string) string {
