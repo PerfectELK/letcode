@@ -11,9 +11,12 @@ import (
 
 func main() {
 	t1 := tree.SliceToTree([]int{10, 5, 15})
-	t2 := tree.SliceToTree([]int{10, 5, 15})
-	ret := isSameTree(t1, t2)
+	ret := invertTree(t1)
 	fmt.Println(ret)
+}
+
+func invertTree(root *tree.TreeNode) *tree.TreeNode {
+	return root
 }
 
 func isSameTree(p *tree.TreeNode, q *tree.TreeNode) bool {
