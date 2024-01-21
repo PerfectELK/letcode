@@ -10,12 +10,32 @@ import (
 )
 
 func main() {
-	ret := longestCommonPrefix([]string{"flower", "flower", "flower", "flower"})
-	//ret := longestCommonPrefix([]string{"flower", "fkow"})
-	//ret := longestCommonPrefix([]string{"ab", "a"})
-	//ret := longestCommonPrefix([]string{"a", "ab"})
-	//ret := longestCommonPrefix([]string{"aaaaabbbb", "aaaaabbbbvv"})
+	t1 := tree.SliceToTree([]int{10, 5, 15})
+	t2 := tree.SliceToTree([]int{10, 5, 15})
+	ret := isSameTree(t1, t2)
 	fmt.Println(ret)
+}
+
+func isSameTree(p *tree.TreeNode, q *tree.TreeNode) bool {
+	return isSameNodes(p, q)
+}
+
+func isSameNodes(l *tree.TreeNode, r *tree.TreeNode) bool {
+	if l == nil && r == nil {
+		return true
+	} else if l == nil || r == nil {
+		return false
+	}
+
+	if l.Val != r.Val {
+		return false
+	}
+	lCh := isSameNodes(l.Left, r.Left)
+	if !lCh {
+		return false
+	}
+	rCh := isSameNodes(l.Right, r.Right)
+	return rCh
 }
 
 func longestCommonPrefix(strs []string) string {
