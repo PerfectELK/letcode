@@ -9,10 +9,12 @@ import (
 )
 
 func main() {
-	t1 := SliceToTree([]int{10, 5, 15, 50, 60, 70, 80})
-	fmt.Println(PrintTree(t1))
-	ret := invertTree(t1)
-	fmt.Println(PrintTree(ret))
+	ret := firstMissingPositive([]int{1, 2, 0})
+	fmt.Println(ret)
+}
+
+func firstMissingPositive(nums []int) int {
+	return 0
 }
 
 func invertTree(root *TreeNode) *TreeNode {
