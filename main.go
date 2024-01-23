@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
 	"strconv"
 	"strings"
 	"unicode"
@@ -10,11 +11,28 @@ import (
 
 func main() {
 	ret := firstMissingPositive([]int{1, 2, 0})
-	fmt.Println(ret)
+	fmt.Println("res ", ret)
 }
 
 func firstMissingPositive(nums []int) int {
-	return 0
+	sort.Ints(nums)
+	prev := nums[0]
+	if prev > 0 && prev-1 > 0 {
+		return 1
+	}
+	for _, n := range nums[1:] {
+		if prev < 0 {
+			prev = 0
+		}
+		if n > 0 && n-prev > 1 {
+			return prev + 1
+		}
+		prev = n
+	}
+	if nums[len(nums)-1] < 0 {
+		return 1
+	}
+	return nums[len(nums)-1] + 1
 }
 
 func invertTree(root *TreeNode) *TreeNode {
