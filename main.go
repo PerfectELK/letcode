@@ -10,8 +10,58 @@ import (
 )
 
 func main() {
-	ret := firstMissingPositive([]int{1, 2, 0})
-	fmt.Println("res ", ret)
+	l := SliceToListNodes([]int{1, 1, 1, 2, 2, 3, 3, 333})
+
+	r := deleteDuplicates(l)
+
+	for {
+		if r == nil {
+			break
+		}
+		fmt.Println(r.Val)
+		r = r.Next
+	}
+}
+
+func deleteDuplicates(head *ListNode) *ListNode {
+	if head == nil {
+		return nil
+	}
+	prevVal := head.Val
+	prevLink := head
+
+	l := head.Next
+	for {
+		if l == nil {
+			return head
+		}
+		if prevVal == l.Val && l.Next != nil {
+			prevLink.Next = l.Next
+		} else if prevVal == l.Val && l.Next == nil {
+			prevLink.Next = nil
+			return head
+		} else {
+			prevLink = l
+			prevVal = l.Val
+		}
+
+		l = l.Next
+	}
+
+}
+
+func climbStairs(n int) int {
+	if n < 3 {
+		return n
+	}
+
+	curr := 2
+	next := 3
+	for i := 3; i < n+1; i++ {
+		curr, next = next, curr+next
+	}
+
+	return curr
 }
 
 func firstMissingPositive(nums []int) int {
