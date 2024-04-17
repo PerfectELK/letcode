@@ -10,9 +10,8 @@ import (
 )
 
 func main() {
-	l := SliceToListNodes([]int{1, 1, 1, 2, 2, 3, 3, 333})
-
-	r := deleteDuplicates(l)
+	l := SliceToListNodes([]int{1, 2})
+	r := removeNthFromEnd(l, 1)
 
 	for {
 		if r == nil {
@@ -21,6 +20,28 @@ func main() {
 		fmt.Println(r.Val)
 		r = r.Next
 	}
+}
+
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	cur, need := head, (*ListNode)(nil)
+	for cur != nil {
+		if need != nil {
+			need = need.Next
+		}
+		if n == 0 {
+			need = head
+		}
+		cur = cur.Next
+		n--
+	}
+
+	if need == nil {
+		return head.Next
+	}
+
+	need.Next = need.Next.Next
+
+	return head
 }
 
 func deleteDuplicates(head *ListNode) *ListNode {
