@@ -10,8 +10,8 @@ import (
 )
 
 func main() {
-	l := SliceToListNodes([]int{1, 2})
-	r := removeNthFromEnd(l, 1)
+	l := SliceToListNodes([]int{1, 2, 3, 4})
+	r := swapPairs(l)
 
 	for {
 		if r == nil {
@@ -20,6 +20,23 @@ func main() {
 		fmt.Println(r.Val)
 		r = r.Next
 	}
+}
+
+func swapPairs(head *ListNode) *ListNode {
+	cur, prev := head, (*ListNode)(nil)
+
+	counter := 1
+	for cur != nil {
+		if counter%2 == 0 {
+			prev.Val, cur.Val = cur.Val, prev.Val
+		}
+
+		counter++
+		prev = cur
+		cur = cur.Next
+	}
+
+	return head
 }
 
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
