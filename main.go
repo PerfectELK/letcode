@@ -26,10 +26,10 @@ func main() {
 }
 
 var dirCountMap = map[int][]int{
-	1: {0, -1},
-	2: {-1, 0},
-	3: {0, 1},
-	4: {1, 0},
+	1: {0, -1}, // left
+	2: {-1, 0}, // up
+	3: {0, 1},  // right
+	4: {1, 0},  // down
 }
 
 func numRookCaptures(board [][]byte) int {
