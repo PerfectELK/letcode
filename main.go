@@ -10,16 +10,74 @@ import (
 )
 
 func main() {
-	l := SliceToListNodes([]int{1, 2, 3, 4})
-	r := swapPairs(l)
-
-	for {
-		if r == nil {
-			break
-		}
-		fmt.Println(r.Val)
-		r = r.Next
+	board := [][]byte{
+		{'.', '.', '.', '.', '.', '.', '.', '.'},
+		{'.', '.', '.', 'p', '.', '.', '.', '.'},
+		{'.', '.', '.', 'R', '.', '.', '.', 'p'},
+		{'.', '.', '.', '.', '.', '.', '.', '.'},
+		{'.', '.', '.', '.', '.', '.', '.', '.'},
+		{'.', '.', '.', 'p', '.', '.', '.', '.'},
+		{'.', '.', '.', '.', '.', '.', '.', '.'},
+		{'.', '.', '.', '.', '.', '.', '.', '.'},
 	}
+
+	r := numRookCaptures(board)
+	fmt.Println(r)
+}
+
+var dirCountMap = map[int][]int{
+	1: {0, -1},
+	2: {-1, 0},
+	3: {0, 1},
+	4: {1, 0},
+}
+
+func numRookCaptures(board [][]byte) int {
+	rookRow, rookCol := findRook(&board)
+	if rookRow == -1 && rookCol == -1 {
+		return 0
+	}
+
+	dirCount := 4
+
+	num := 0
+	for dirCount != 0 {
+		sRow, sCol := rookRow, rookCol
+
+		for {
+			sRow += dirCountMap[dirCount][0]
+			sCol += dirCountMap[dirCount][1]
+			if sRow == -1 || sRow == 8 {
+				break
+			}
+			if sCol == -1 || sCol == 8 {
+				break
+			}
+
+			if board[sRow][sCol] == 'B' {
+				break
+			}
+			if board[sRow][sCol] == 'p' {
+				num++
+				break
+			}
+		}
+
+		dirCount--
+	}
+
+	return num
+}
+
+func findRook(board *[][]byte) (int, int) {
+	for rowNum, row := range *board {
+		for colNum, cell := range row {
+			if cell == 'R' {
+				return rowNum, colNum
+			}
+		}
+	}
+	return -1, -1
 }
 
 func swapPairs(head *ListNode) *ListNode {
