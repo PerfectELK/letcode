@@ -10,19 +10,36 @@ import (
 )
 
 func main() {
-	board := [][]byte{
-		{'.', '.', '.', '.', '.', '.', '.', '.'},
-		{'.', '.', '.', 'p', '.', '.', '.', '.'},
-		{'.', '.', '.', 'R', '.', '.', '.', 'p'},
-		{'.', '.', '.', '.', '.', '.', '.', '.'},
-		{'.', '.', '.', '.', '.', '.', '.', '.'},
-		{'.', '.', '.', 'p', '.', '.', '.', '.'},
-		{'.', '.', '.', '.', '.', '.', '.', '.'},
-		{'.', '.', '.', '.', '.', '.', '.', '.'},
-	}
-
-	r := numRookCaptures(board)
+	r := maxArea([]int{1, 8, 6, 2, 5, 4, 8, 3, 7})
 	fmt.Println(r)
+}
+
+func maxArea(height []int) int {
+	mArea := 0
+	for i1, num := range height {
+		for i2, num2 := range height {
+			if i1 == i2 {
+				continue
+			}
+			minNum := min(num, num2)
+			distance := i2 - i1
+			if distance < 0 {
+				distance = distance * -1
+			}
+			area := minNum * distance
+			if mArea < area {
+				mArea = area
+			}
+		}
+	}
+	return mArea
+}
+
+func min(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
 var dirCountMap = map[int][]int{
