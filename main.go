@@ -16,23 +16,27 @@ func main() {
 
 func maxArea(height []int) int {
 	mArea := 0
-	for i1, num := range height {
-		for i2, num2 := range height {
-			if i1 == i2 {
-				continue
-			}
-			minNum := min(num, num2)
-			distance := i2 - i1
-			if distance < 0 {
-				distance = distance * -1
-			}
-			area := minNum * distance
-			if mArea < area {
-				mArea = area
-			}
+
+	leftI, rightI := 0, len(height)-1
+	for leftI < rightI {
+		area := calcArea(leftI, rightI, height[leftI], height[rightI])
+		if area > mArea {
+			mArea = area
+		}
+		if height[leftI] > height[rightI] {
+			rightI--
+		} else {
+			leftI++
 		}
 	}
 	return mArea
+}
+
+func calcArea(lI, rI, lVal, rVal int) int {
+	if lVal < rVal {
+		return (rI - lI) * lVal
+	}
+	return (rI - lI) * rVal
 }
 
 func min(a int, b int) int {
