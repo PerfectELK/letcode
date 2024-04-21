@@ -11,11 +11,60 @@ import (
 
 func main() {
 	r := findSubstring("barfoothefoobarman", []string{"foo", "bar"})
+	//r := findSubstring("wordgoodgoodgoodbestword", []string{"word", "good", "best", "word"})
+	//r := findSubstring("wordgoodgoodgoodbestword", []string{"word", "good", "best", "good"})
 	fmt.Println(r)
 }
 
 func findSubstring(s string, words []string) []int {
-	return nil
+	if len(words) == 0 {
+		return nil
+	}
+	m := make(map[string]int, len(words))
+	for _, word := range words {
+		if _, ok := m[word]; ok {
+			m[word] = m[word] + 1
+		} else {
+			m[word] = 1
+		}
+	}
+	wLen := len(words[0])
+
+	matchArr := make([]int, 0)
+	matchMap := make(map[string]int)
+	firstIdx := -1
+	for i := 0; i < len(s)+1-(wLen*len(words)); i++ {
+		sI := i
+		matches := 0
+		for j := 0; j < len(words); j++ {
+			subs := s[sI : sI+wLen]
+			v1, ok := m[subs]
+			if !ok {
+				break
+			}
+
+			if firstIdx == -1 {
+				firstIdx = sI
+			}
+			if v2, ok := matchMap[subs]; ok {
+				if v2 == v1 {
+					break
+				}
+				matchMap[subs] = matchMap[subs] + 1
+			} else {
+				matchMap[subs] = 1
+			}
+
+			matches++
+			sI += wLen
+			if matches == len(words) {
+				matchArr = append(matchArr, firstIdx)
+			}
+		}
+		clear(matchMap)
+		firstIdx = -1
+	}
+	return matchArr
 }
 
 func maxArea(height []int) int {
