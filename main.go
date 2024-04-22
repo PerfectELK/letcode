@@ -10,10 +10,69 @@ import (
 )
 
 func main() {
-	r := findSubstring("barfoothefoobarman", []string{"foo", "bar"})
-	//r := findSubstring("wordgoodgoodgoodbestword", []string{"word", "good", "best", "word"})
-	//r := findSubstring("wordgoodgoodgoodbestword", []string{"word", "good", "best", "good"})
+	t := TreeNode{
+		Val: 3,
+		Left: &TreeNode{
+			Val:   9,
+			Left:  nil,
+			Right: nil,
+		},
+		Right: &TreeNode{
+			Val: 20,
+			Left: &TreeNode{
+				Val:   15,
+				Left:  nil,
+				Right: nil,
+			},
+			Right: &TreeNode{
+				Val:   7,
+				Left:  nil,
+				Right: nil,
+			},
+		},
+	}
+	r := minDepth(&t)
 	fmt.Println(r)
+}
+
+func minDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return checkDepth(root, 1)
+}
+
+func checkDepth(t *TreeNode, depth int) int {
+	if t.Left == nil && t.Right == nil {
+		return depth
+	}
+
+	lCh, rCh := 0, 0
+	if t.Left != nil {
+		lCh = checkDepth(t.Left, depth+1)
+	}
+
+	if t.Right != nil {
+		rCh = checkDepth(t.Right, depth+1)
+	}
+
+	if rCh == 0 && lCh == 0 {
+		return depth
+	}
+
+	if lCh == 0 {
+		return rCh
+	}
+
+	if rCh == 0 {
+		return lCh
+	}
+
+	if lCh < rCh {
+		return lCh
+	}
+
+	return rCh
 }
 
 func findSubstring(s string, words []string) []int {
