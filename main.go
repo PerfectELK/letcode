@@ -10,9 +10,18 @@ import (
 )
 
 func main() {
-	t := ")()())()()("
+	//t := ")())()(()"
+	//t := "()(()(()"
+	//t := "))))((()(("
+	//t := "(((((((()"
+	t := "))(()"
 	r := longestValidParentheses(t)
 	fmt.Println(r)
+}
+
+type validIdx struct {
+	start int
+	end   int
 }
 
 func longestValidParentheses(s string) int {
@@ -24,36 +33,106 @@ func longestValidParentheses(s string) int {
 		')': 0,
 	}
 
-	parIdxs := make([]int, 0)
-
-	longest := 0
+	opens := make([]int, 0)
+	validIdxs := make([]validIdx, 0)
 	cur := 0
-	for _, ch := range s {
+	for i, ch := range s {
 		if ch == '(' {
 			longestValidParMap['(']++
-			parIdxs = append(parIdxs, cur)
+			opens = append(opens, i)
 		} else if ch == ')' && longestValidParMap['('] != 0 {
 			longestValidParMap['(']--
-			parIdxs = parIdxs[0 : len(parIdxs)-1]
+			opens = opens[0 : len(opens)-1]
 		} else if ch == ')' && longestValidParMap['('] == 0 {
-			longest = cur
 			cur = 0
 			longestValidParMap['('] = 0
+			if len(validIdxs) != 0 && validIdxs[len(validIdxs)-1].end == -1 {
+				validIdxs[len(validIdxs)-1].end = i - 1
+			}
 			continue
+		}
+		if cur == 1 {
+			validIdxs = append(validIdxs, validIdx{
+				start: i - 1,
+				end:   -1,
+			})
 		}
 		cur++
 	}
-	if cur > longest {
-		longest = cur
+
+	if len(validIdxs) != 0 {
+		for i, item := range validIdxs {
+			if item.end == -1 {
+				validIdxs[i].end = len(s) - 1
+			}
+		}
 	}
-	fmt.Println(parIdxs)
-	for _, v := range parIdxs {
-		longest--
-		longest -= v
+
+	longest := 0
+	for i := 0; i < len(validIdxs); i++ {
+		val := validIdxs[i]
+		itemVal := val.end - val.start + 1
+		addedIdxs := make([]int, 0)
+		addedIdxs = append(addedIdxs, val.start)
+		for _, idx := range opens {
+			if idx == val.start || idx == val.end {
+				itemVal--
+			} else if idx >= val.start && idx <= val.end {
+				addedIdxs = append(addedIdxs, idx)
+			}
+		}
+		addedIdxs = append(addedIdxs, val.end)
+		if len(addedIdxs) > 2 {
+			for j := 0; j < len(addedIdxs); j++ {
+				if j == len(addedIdxs)-1 {
+					break
+				}
+				vIdx := validIdx{
+					start: addedIdxs[j],
+					end:   addedIdxs[j+1] - 1,
+				}
+				if vIdx.start == vIdx.end {
+					continue
+				}
+				if j != 0 {
+					vIdx.start = addedIdxs[j] + 1
+				}
+				if j+1 == len(addedIdxs)-1 {
+					vIdx.end = addedIdxs[j+1]
+				}
+				validIdxs = append(validIdxs, vIdx)
+			}
+			continue
+		}
+		if longest < itemVal {
+			longest = itemVal
+		}
 	}
 
 	return longest
 }
+
+// Это решение не моё, сохранил потому что показалось супер лаконичным (особенно по сравнению с моим)
+//func longestValidParentheses(s string) int {
+//	stack := make([]int, 0, len(s))
+//	stack = append(stack, -1)
+//	res := 0
+//
+//	for index, char := range s {
+//		if char == '(' {
+//			stack = append(stack, index)
+//		} else {
+//			stack = stack[:len(stack)-1]
+//			if len(stack) == 0 {
+//				stack = append(stack, index)
+//			}
+//			res = max(res, index-stack[len(stack)-1])
+//		}
+//		fmt.Println(stack)
+//		fmt.Println(index)
+//	}
+//	return res
+//}
 
 func minDepth(root *TreeNode) int {
 	if root == nil {
