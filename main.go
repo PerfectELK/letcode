@@ -10,13 +10,49 @@ import (
 )
 
 func main() {
-	t := "(()"
+	t := ")()())()()("
 	r := longestValidParentheses(t)
 	fmt.Println(r)
 }
 
 func longestValidParentheses(s string) int {
-	return 0
+	if len(s) == 0 {
+		return 0
+	}
+	longestValidParMap := map[byte]int{
+		'(': 0,
+		')': 0,
+	}
+
+	parIdxs := make([]int, 0)
+
+	longest := 0
+	cur := 0
+	for _, ch := range s {
+		if ch == '(' {
+			longestValidParMap['(']++
+			parIdxs = append(parIdxs, cur)
+		} else if ch == ')' && longestValidParMap['('] != 0 {
+			longestValidParMap['(']--
+			parIdxs = parIdxs[0 : len(parIdxs)-1]
+		} else if ch == ')' && longestValidParMap['('] == 0 {
+			longest = cur
+			cur = 0
+			longestValidParMap['('] = 0
+			continue
+		}
+		cur++
+	}
+	if cur > longest {
+		longest = cur
+	}
+	fmt.Println(parIdxs)
+	for _, v := range parIdxs {
+		longest--
+		longest -= v
+	}
+
+	return longest
 }
 
 func minDepth(root *TreeNode) int {
