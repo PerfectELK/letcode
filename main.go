@@ -10,13 +10,42 @@ import (
 )
 
 func main() {
-	//t := ")())()(()"
-	//t := "()(()(()"
-	//t := "))))((()(("
-	//t := "(((((((()"
-	t := "))(()"
-	r := longestValidParentheses(t)
+
+	l1 := &ListNode{
+		Next: &ListNode{
+			Next: &ListNode{
+				Next: nil,
+				Val:  3,
+			},
+			Val: 2,
+		},
+		Val: 1,
+	}
+
+	//l1.Next.Next.Next = l1.Next
+
+	r := hasCycle(l1)
 	fmt.Println(r)
+}
+
+func hasCycle(head *ListNode) bool {
+	if head == nil || head.Next == nil {
+		return false
+	}
+	addrs := make(map[*ListNode]bool)
+
+	for {
+		if head.Next == nil {
+			break
+		}
+		addrs[head] = true
+		if _, ok := addrs[head.Next]; ok {
+			return true
+		}
+		head = head.Next
+	}
+
+	return false
 }
 
 type validIdx struct {
