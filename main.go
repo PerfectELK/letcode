@@ -10,10 +10,13 @@ import (
 )
 
 func main() {
-	r := generate(5)
+	r := singleNumber([]int{1, 2, 3, 1, 2, 3, 4})
 
 	fmt.Println(r)
+}
 
+func singleNumber(nums []int) int {
+	return 0
 }
 
 func generate(numRows int) [][]int {
