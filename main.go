@@ -10,22 +10,37 @@ import (
 )
 
 func main() {
+	r := generate(5)
 
-	l1 := &ListNode{
-		Next: &ListNode{
-			Next: &ListNode{
-				Next: nil,
-				Val:  3,
-			},
-			Val: 2,
-		},
-		Val: 1,
+	fmt.Println(r)
+
+}
+
+func generate(numRows int) [][]int {
+	res := make([][]int, numRows)
+	if numRows >= 1 {
+		res[0] = []int{1}
+	}
+	if numRows >= 2 {
+		res[0] = []int{1}
+		res[1] = []int{1, 1}
 	}
 
-	//l1.Next.Next.Next = l1.Next
+	if numRows <= 2 {
+		return res
+	}
 
-	r := hasCycle(l1)
-	fmt.Println(r)
+	for i := 3; i <= numRows; i++ {
+		item := make([]int, i)
+		item[0] = 1
+		for j := 2; j < i; j++ {
+			item[j-1] = res[i-2][j-2] + res[i-2][j-1]
+		}
+		item[i-1] = 1
+		res[i-1] = item
+	}
+
+	return res
 }
 
 func hasCycle(head *ListNode) bool {
