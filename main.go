@@ -10,9 +10,57 @@ import (
 )
 
 func main() {
-	r := singleNumber([]int{1, 2, 3, 1, 2, 3, 4})
+	t := &TreeNode{
+		Val: 5,
+		Left: &TreeNode{
+			Val:   3,
+			Left:  nil,
+			Right: nil,
+		},
+		Right: &TreeNode{
+			Val:  4,
+			Left: nil,
+			Right: &TreeNode{
+				Val:   1,
+				Left:  nil,
+				Right: nil,
+			},
+		},
+	}
+
+	r := hasPathSum(t, 10)
 
 	fmt.Println(r)
+}
+
+func hasPathSum(root *TreeNode, targetSum int) bool {
+	if root == nil {
+		return false
+	}
+	return findNeedSum(root, 0, &targetSum)
+}
+
+func findNeedSum(n *TreeNode, acc int, target *int) bool {
+	acc += n.Val
+	if acc == *target && n.Left == nil && n.Right == nil {
+		return true
+	}
+
+	if n.Left != nil {
+		res := findNeedSum(n.Left, acc, target)
+		if res {
+			return res
+		}
+	}
+
+	if n.Right != nil {
+		res := findNeedSum(n.Right, acc, target)
+		if res {
+			return res
+		}
+	}
+
+	return false
 }
 
 func singleNumber(nums []int) int {
