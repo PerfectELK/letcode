@@ -10,27 +10,51 @@ import (
 )
 
 func main() {
-	t := &TreeNode{
-		Val: 5,
-		Left: &TreeNode{
-			Val:   3,
-			Left:  nil,
-			Right: nil,
-		},
-		Right: &TreeNode{
-			Val:  4,
-			Left: nil,
-			Right: &TreeNode{
-				Val:   1,
-				Left:  nil,
-				Right: nil,
+	t := &ListNode{
+		Next: &ListNode{
+			Next: &ListNode{
+				Next: &ListNode{
+					Next: nil,
+					Val:  3,
+				},
+				Val: 1,
 			},
+			Val: 1,
 		},
+		Val: 1,
 	}
 
-	r := hasPathSum(t, 10)
+	r := removeElements(t, 1)
 
-	fmt.Println(r)
+	for r != nil {
+		fmt.Println(r.Val)
+		r = r.Next
+	}
+}
+
+func removeElements(head *ListNode, val int) *ListNode {
+	if head == nil {
+		return nil
+	}
+
+	prev, cur := (*ListNode)(nil), head
+
+	for cur != nil {
+
+		if cur.Val == val {
+			if prev == nil {
+				head = cur.Next
+			} else {
+				prev.Next = cur.Next
+			}
+		} else {
+			prev = cur
+		}
+
+		cur = cur.Next
+	}
+
+	return head
 }
 
 func hasPathSum(root *TreeNode, targetSum int) bool {
