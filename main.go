@@ -10,26 +10,24 @@ import (
 )
 
 func main() {
-	t := &ListNode{
-		Next: &ListNode{
-			Next: &ListNode{
-				Next: &ListNode{
-					Next: nil,
-					Val:  3,
-				},
-				Val: 1,
-			},
-			Val: 1,
-		},
-		Val: 1,
+	t := 11
+
+	r := hammingWeight(t)
+
+	fmt.Println(r)
+}
+
+func hammingWeight(n int) int {
+	counter := 0
+
+	for n != 0 {
+		if n%2 != 0 {
+			counter++
+		}
+		n = n / 2
 	}
 
-	r := removeElements(t, 1)
-
-	for r != nil {
-		fmt.Println(r.Val)
-		r = r.Next
-	}
+	return counter
 }
 
 func removeElements(head *ListNode, val int) *ListNode {
