@@ -10,11 +10,25 @@ import (
 )
 
 func main() {
-	t := 11
+	t := SliceToTree([]int{1, 2, 3, 4, 5, 6})
 
-	r := hammingWeight(t)
+	r := countNodes(t)
 
 	fmt.Println(r)
+}
+
+func countNodes(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	c := 1
+
+	c += countNodes(root.Left)
+
+	c += countNodes(root.Right)
+
+	return c
 }
 
 func hammingWeight(n int) int {
