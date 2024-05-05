@@ -10,9 +10,21 @@ import (
 )
 
 func main() {
-	r := defangIPaddr("127.0.0.1")
+	r := numIdenticalPairs([]int{1, 1, 1, 1})
 
 	fmt.Println(r)
+}
+
+func numIdenticalPairs(nums []int) int {
+	c := 0
+	for i := 0; i < len(nums); i++ {
+		for j := i + 1; j < len(nums); j++ {
+			if nums[i] == nums[j] {
+				c++
+			}
+		}
+	}
+	return c
 }
 
 func defangIPaddr(address string) string {
