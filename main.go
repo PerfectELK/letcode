@@ -10,11 +10,13 @@ import (
 )
 
 func main() {
-	t := SliceToTree([]int{1, 2, 3, 4, 5, 6})
-
-	r := countNodes(t)
+	r := defangIPaddr("127.0.0.1")
 
 	fmt.Println(r)
+}
+
+func defangIPaddr(address string) string {
+	return strings.Replace(address, ".", "[.]", -1)
 }
 
 func countNodes(root *TreeNode) int {
