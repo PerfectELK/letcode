@@ -10,9 +10,22 @@ import (
 )
 
 func main() {
-	r := numIdenticalPairs([]int{1, 1, 1, 1})
+	r := permute([]int{1, 2, 3})
 
 	fmt.Println(r)
+}
+
+func permute(nums []int) [][]int {
+	f := factorial(len(nums))
+	ret := make([][]int, 0, f)
+
+}
+
+func factorial(n int) int {
+	if n == 0 {
+		return 1
+	}
+	return n * factorial(n-1)
 }
 
 func numIdenticalPairs(nums []int) int {
