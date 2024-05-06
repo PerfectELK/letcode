@@ -15,17 +15,32 @@ func main() {
 	fmt.Println(r)
 }
 
-func permute(nums []int) [][]int {
-	f := factorial(len(nums))
-	ret := make([][]int, 0, f)
+func backtrack(res *[][]int, nums []int, permutation []int, used map[int]struct{}) {
+	if len(permutation) == len(nums) {
+		c := make([]int, len(permutation))
+		copy(c, permutation)
+		*res = append(*res, c)
+		return
+	}
 
+	for _, num := range nums {
+		if _, ok := used[num]; ok {
+			continue
+		}
+		used[num] = struct{}{}
+		permutation = append(permutation, num)
+
+		backtrack(res, nums, permutation, used)
+
+		delete(used, num)
+		permutation = permutation[:len(permutation)-1]
+	}
 }
 
-func factorial(n int) int {
-	if n == 0 {
-		return 1
-	}
-	return n * factorial(n-1)
+func permute(nums []int) [][]int {
+	var res [][]int
+	backtrack(&res, nums, []int{}, map[int]struct{}{})
+	return res
 }
 
 func numIdenticalPairs(nums []int) int {
