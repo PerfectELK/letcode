@@ -10,9 +10,13 @@ import (
 )
 
 func main() {
-	r := permute([]int{1, 2, 3})
+	r := trap([]int{1, 2, 3})
 
 	fmt.Println(r)
+}
+
+func trap(height []int) int {
+	return 0
 }
 
 func backtrack(res *[][]int, nums []int, permutation []int, used map[int]struct{}) {
