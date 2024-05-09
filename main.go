@@ -11,17 +11,15 @@ import (
 
 func main() {
 
-	//arr := []int{2, 0, 2, 1, 1, 0}
-	//arr := []int{1, 1}
-	//arr := []int{0, 2, 1}
-	//arr := []int{2, 0, 1}
-	//arr := []int{1, 2, 0}
-	//arr := []int{0, 0, 1}
-	arr := []int{1, 2, 2, 2, 2, 0, 0, 0, 1, 1}
+	arr := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
 
-	sortColors(arr)
+	r := minPathSum(arr)
 
-	fmt.Println(arr)
+	fmt.Println(r)
+}
+
+func minPathSum(grid [][]int) int {
+	return 0
 }
 
 func sortColors(nums []int) {
