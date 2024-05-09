@@ -11,7 +11,13 @@ import (
 
 func main() {
 
-	arr := []int{2, 0, 1}
+	//arr := []int{2, 0, 2, 1, 1, 0}
+	//arr := []int{1, 1}
+	//arr := []int{0, 2, 1}
+	//arr := []int{2, 0, 1}
+	//arr := []int{1, 2, 0}
+	//arr := []int{0, 0, 1}
+	arr := []int{1, 2, 2, 2, 2, 0, 0, 0, 1, 1}
 
 	sortColors(arr)
 
@@ -19,7 +25,50 @@ func main() {
 }
 
 func sortColors(nums []int) {
-	nums[0] = 4
+	if len(nums) == 1 {
+		return
+	}
+	if len(nums) == 2 {
+		if nums[0] == 2 {
+			nums[0], nums[1] = nums[1], nums[0]
+		}
+		if nums[1] == 0 {
+			nums[0], nums[1] = nums[1], nums[0]
+		}
+		return
+	}
+	l, r := 0, len(nums)-1
+
+	for i := 0; i < len(nums); i++ {
+		num := nums[i]
+
+		if num == 0 {
+			for {
+				if l > len(nums)-1 || l >= i {
+					break
+				}
+				if nums[l] <= nums[i] {
+					l++
+				} else {
+					nums[l], nums[i] = num, nums[l]
+					break
+				}
+			}
+		} else if num == 2 {
+			for {
+				if r < 0 || r <= i {
+					break
+				}
+				if nums[r] == 2 {
+					r--
+				} else {
+					nums[r], nums[i] = num, nums[r]
+					i--
+					break
+				}
+			}
+		}
+	}
 }
 
 func backtrack(res *[][]int, nums []int, permutation []int, used map[int]struct{}) {
