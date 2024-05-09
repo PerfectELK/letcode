@@ -10,13 +10,16 @@ import (
 )
 
 func main() {
-	r := trap([]int{1, 2, 3})
 
-	fmt.Println(r)
+	arr := []int{2, 0, 1}
+
+	sortColors(arr)
+
+	fmt.Println(arr)
 }
 
-func trap(height []int) int {
-	return 0
+func sortColors(nums []int) {
+	nums[0] = 4
 }
 
 func backtrack(res *[][]int, nums []int, permutation []int, used map[int]struct{}) {
