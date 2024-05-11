@@ -10,16 +10,40 @@ import (
 )
 
 func main() {
-
-	arr := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
-
-	r := minPathSum(arr)
+	r := uniquePaths(23, 12)
 
 	fmt.Println(r)
 }
 
-func minPathSum(grid [][]int) int {
-	return 0
+var cache map[string]int
+
+func uniquePaths(m int, n int) int {
+	cache = map[string]int{}
+	return calcPath(m, n)
+}
+
+func calcPath(m, n int) int {
+	if m == 1 && n == 1 {
+		return 1
+	}
+
+	key := fmt.Sprintf("%d-%d", m, n)
+	if v, ok := cache[key]; ok {
+		return v
+	}
+
+	a := 0
+	if m-1 > 0 {
+		a = calcPath(m-1, n)
+	}
+
+	b := 0
+	if n-1 > 0 {
+		b = calcPath(m, n-1)
+	}
+
+	cache[key] = a + b
+	return cache[key]
 }
 
 func sortColors(nums []int) {
