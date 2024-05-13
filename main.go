@@ -10,9 +10,34 @@ import (
 )
 
 func main() {
-	r := uniquePaths(23, 12)
-
+	r := lengthOfLongestSubstring("aab")
 	fmt.Println(r)
+}
+
+func lengthOfLongestSubstring(s string) int {
+	c := map[byte]struct{}{}
+
+	l, i, counter := 0, 0, 0
+	for i < len(s) {
+		if _, ok := c[s[i]]; ok {
+			if i-l > counter {
+				counter = i - l
+			}
+			i = l + 1
+			l = i
+			clear(c)
+			continue
+		} else {
+			c[s[i]] = struct{}{}
+		}
+		i++
+	}
+
+	if i-l > counter {
+		return i - l
+	}
+
+	return counter
 }
 
 var cache map[string]int
