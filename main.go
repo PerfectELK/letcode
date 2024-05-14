@@ -11,36 +11,46 @@ import (
 
 func main() {
 
-	arr := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
+	arr := [][]int{
+		{1, 3, 1},
+		{1, 5, 1},
+		{4, 2, 1},
+	}
 
 	r := minPathSum(arr)
 	fmt.Println(r)
 }
 
 func minPathSum(grid [][]int) int {
-	res := 201
+	if len(grid) == 0 || len(grid[0]) == 0 {
+		return 0
+	}
 
-	calcPathSum(&grid, &res, 0, 0, 0)
+	m := len(grid)
+	n := len(grid[0])
 
-	return res
-}
+	dp := make([][]int, m)
+	for i := range dp {
+		dp[i] = make([]int, n)
+	}
 
-func calcPathSum(grid *[][]int, res *int, x, y, sum int) {
-	if x == len((*grid)[0])-1 && y == len(*grid)-1 {
-		sum += (*grid)[y][x]
-		if *res > sum {
-			*res = sum
+	dp[0][0] = grid[0][0]
+
+	for i := 1; i < m; i++ {
+		dp[i][0] = dp[i-1][0] + grid[i][0]
+	}
+
+	for j := 1; j < n; j++ {
+		dp[0][j] = dp[0][j-1] + grid[0][j]
+	}
+
+	for i := 1; i < m; i++ {
+		for j := 1; j < n; j++ {
+			dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]
 		}
-		return
 	}
 
-	sum += (*grid)[y][x]
-	if x+1 < len((*grid)[0]) {
-		calcPathSum(grid, res, x+1, y, sum)
-	}
-	if y+1 < len(*grid) {
-		calcPathSum(grid, res, x, y+1, sum)
-	}
+	return dp[m-1][n-1]
 }
 
 func lengthOfLongestSubstring(s string) int {
