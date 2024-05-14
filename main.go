@@ -10,8 +10,15 @@ import (
 )
 
 func main() {
-	r := lengthOfLongestSubstring("aab")
+
+	arr := [][]int{{1, 3, 1}, {1, 5, 1}, {4, 2, 1}}
+
+	r := minPathSum(arr)
 	fmt.Println(r)
+}
+
+func minPathSum(grid [][]int) int {
+	return 0
 }
 
 func lengthOfLongestSubstring(s string) int {
