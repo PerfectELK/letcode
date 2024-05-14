@@ -18,7 +18,29 @@ func main() {
 }
 
 func minPathSum(grid [][]int) int {
-	return 0
+	res := 201
+
+	calcPathSum(&grid, &res, 0, 0, 0)
+
+	return res
+}
+
+func calcPathSum(grid *[][]int, res *int, x, y, sum int) {
+	if x == len((*grid)[0])-1 && y == len(*grid)-1 {
+		sum += (*grid)[y][x]
+		if *res > sum {
+			*res = sum
+		}
+		return
+	}
+
+	sum += (*grid)[y][x]
+	if x+1 < len((*grid)[0]) {
+		calcPathSum(grid, res, x+1, y, sum)
+	}
+	if y+1 < len(*grid) {
+		calcPathSum(grid, res, x, y+1, sum)
+	}
 }
 
 func lengthOfLongestSubstring(s string) int {
