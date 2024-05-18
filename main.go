@@ -11,14 +11,18 @@ import (
 
 func main() {
 
-	arr := [][]int{
-		{1, 3, 1},
-		{1, 5, 1},
-		{4, 2, 1},
-	}
+	arr := []int{7, 1, 5, 3, 6, 4}
+	//arr := []int{7, 6, 4, 3, 1}
 
-	r := minPathSum(arr)
+	r := maxProfit(arr)
 	fmt.Println(r)
+}
+
+func maxProfit(prices []int) int {
+	if len(prices) < 2 {
+		return 0
+	}
+	return 0
 }
 
 func minPathSum(grid [][]int) int {
