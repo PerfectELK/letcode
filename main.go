@@ -22,7 +22,34 @@ func maxProfit(prices []int) int {
 	if len(prices) < 2 {
 		return 0
 	}
-	return 0
+
+	mins := []int{0}
+	maxs := []int{len(prices) - 1}
+
+	for i, j := 0, len(prices)-1; i < len(prices); i++ {
+		if prices[mins[len(mins)-1]] > prices[i] {
+			mins = append(mins, i)
+		}
+		if prices[j] > prices[maxs[len(maxs)-1]] {
+			maxs = append(maxs, j)
+		}
+		j--
+	}
+
+	res := 0
+
+	for i := 0; i < len(mins); i++ {
+		for j := 0; j < len(maxs); j++ {
+			if maxs[j] <= mins[i] {
+				break
+			}
+			if prices[maxs[j]]-prices[mins[i]] > res {
+				res = prices[maxs[j]] - prices[mins[i]]
+			}
+		}
+	}
+
+	return res
 }
 
 func minPathSum(grid [][]int) int {
