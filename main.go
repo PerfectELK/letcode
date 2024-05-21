@@ -11,9 +11,9 @@ import (
 
 func main() {
 
-	arr := []int{1, 2, 3, 1, 2, 3}
+	arr := []int{1, 2, 3, 1}
 
-	r := containsNearbyDuplicate(arr, 2)
+	r := containsNearbyDuplicate(arr, 3)
 	fmt.Println(r)
 }
 
@@ -21,20 +21,18 @@ func containsNearbyDuplicate(nums []int, k int) bool {
 	if len(nums) == 0 {
 		return false
 	}
-	l, r := 0, 1
+	c := make(map[int][]int, len(nums))
 
-	for l < len(nums) {
-		if r == len(nums) {
-			l++
-			r = l + 1
-			continue
+	for i, num := range nums {
+		if v, ok := c[num]; ok {
+			for _, i2 := range v {
+				if abs(i-i2) <= k {
+					return true
+				}
+			}
 		}
 
-		if nums[l] == nums[r] && (abs(r-l) <= k || abs(l-r) <= k) {
-			return true
-		}
-
-		r++
+		c[num] = append(c[num], i)
 	}
 
 	return false
