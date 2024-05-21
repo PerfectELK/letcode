@@ -11,10 +11,40 @@ import (
 
 func main() {
 
-	arr := []int{1, 2, 3, 4, 5, 1}
+	arr := []int{1, 2, 3, 1, 2, 3}
 
-	r := containsDuplicate(arr)
+	r := containsNearbyDuplicate(arr, 2)
 	fmt.Println(r)
+}
+
+func containsNearbyDuplicate(nums []int, k int) bool {
+	if len(nums) == 0 {
+		return false
+	}
+	l, r := 0, 1
+
+	for l < len(nums) {
+		if r == len(nums) {
+			l++
+			r = l + 1
+			continue
+		}
+
+		if nums[l] == nums[r] && (abs(r-l) <= k || abs(l-r) <= k) {
+			return true
+		}
+
+		r++
+	}
+
+	return false
+}
+
+func abs(i int) int {
+	if i < 0 {
+		return i * -1
+	}
+	return i
 }
 
 func containsDuplicate(nums []int) bool {
