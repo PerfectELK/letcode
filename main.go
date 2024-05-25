@@ -11,10 +11,18 @@ import (
 
 func main() {
 
-	arr := []int{1, 2, 3, 1}
+	arr := [][]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9},
+	}
 
-	r := containsNearbyDuplicate(arr, 3)
-	fmt.Println(r)
+	rotate(arr)
+	fmt.Println(arr)
+}
+
+func rotate(matrix [][]int) {
+
 }
 
 func containsNearbyDuplicate(nums []int, k int) bool {
