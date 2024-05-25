@@ -16,13 +16,23 @@ func main() {
 		{4, 5, 6},
 		{7, 8, 9},
 	}
-
+	fmt.Println(arr)
 	rotate(arr)
 	fmt.Println(arr)
 }
 
 func rotate(matrix [][]int) {
-
+	c := make([][]int, len(matrix))
+	for i, v := range matrix {
+		for _, vv := range v {
+			c[i] = append(c[i], vv)
+		}
+	}
+	for rowI, row := range c {
+		for i, val := range row {
+			matrix[i][len(c)-1-rowI] = val
+		}
+	}
 }
 
 func containsNearbyDuplicate(nums []int, k int) bool {
