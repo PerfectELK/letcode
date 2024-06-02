@@ -10,15 +10,26 @@ import (
 )
 
 func main() {
+	digits := "23"
+	r := letterCombinations(digits)
+	fmt.Println(r)
+}
 
-	arr := [][]int{
-		{1, 2, 3},
-		{4, 5, 6},
-		{7, 8, 9},
-	}
-	fmt.Println(arr)
-	rotate(arr)
-	fmt.Println(arr)
+var phoneNumM = map[byte][]byte{
+	'2': {'a', 'b', 'c'},
+	'3': {'d', 'e', 'f'},
+	'4': {'g', 'h', 'i'},
+	'5': {'j', 'k', 'l'},
+	'6': {'m', 'n', 'o'},
+	'7': {'p', 'q', 'r', 's'},
+	'8': {'t', 'u', 'v'},
+	'9': {'w', 'x', 'y', 'z'},
+}
+
+func letterCombinations(digits string) []string {
+
+	return nil
+
 }
 
 func rotate(matrix [][]int) {
