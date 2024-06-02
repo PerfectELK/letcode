@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	digits := "23"
+	digits := "2"
 	r := letterCombinations(digits)
 	fmt.Println(r)
 }
@@ -27,9 +27,30 @@ var phoneNumM = map[byte][]byte{
 }
 
 func letterCombinations(digits string) []string {
+	result := make([]string, 0)
+	if len(digits) == 0 {
+		return result
+	}
+	letterCombRec([]byte(digits[:]), []byte{}, &result)
+	return result
+}
 
-	return nil
+func letterCombRec(digits []byte, cur []byte, result *[]string) {
+	if len(digits) == 0 {
+		*result = append(*result, string(cur))
+		return
+	}
 
+	digit := digits[0]
+	var nextDigits []byte
+	if len(digits) > 1 {
+		nextDigits = digits[1:]
+	}
+	for _, v := range phoneNumM[digit] {
+		cur := append(cur, v)
+		letterCombRec(nextDigits, cur, result)
+		cur = cur[0 : len(cur)-1]
+	}
 }
 
 func rotate(matrix [][]int) {
