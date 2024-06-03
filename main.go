@@ -10,9 +10,18 @@ import (
 )
 
 func main() {
-	digits := "2"
-	r := letterCombinations(digits)
+	intervals := [][]int{
+		{1, 3},
+		{2, 6},
+		{8, 10},
+		{15, 18},
+	}
+	r := mergeIntervals(intervals)
 	fmt.Println(r)
+}
+
+func mergeIntervals(intervals [][]int) [][]int {
+	return nil
 }
 
 var phoneNumM = map[byte][]byte{
