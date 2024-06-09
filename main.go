@@ -10,18 +10,50 @@ import (
 )
 
 func main() {
+	//intervals := [][]int{
+	//	{1, 3},
+	//	{2, 6},
+	//	{8, 10},
+	//	{15, 18},
+	//}
+	//intervals := [][]int{
+	//	{1, 4},
+	//	{4, 5},
+	//}
 	intervals := [][]int{
-		{1, 3},
-		{2, 6},
-		{8, 10},
-		{15, 18},
+		{1, 4},
+		{0, 4},
 	}
 	r := mergeIntervals(intervals)
 	fmt.Println(r)
 }
 
 func mergeIntervals(intervals [][]int) [][]int {
-	return nil
+	ret := make([][]int, 0, len(intervals))
+	ret = append(ret, intervals[0])
+
+	if len(intervals) == 1 {
+		return ret
+	}
+
+	for _, v := range intervals[1:] {
+		if v[0] > ret[len(ret)-1][1] {
+			ret = append(ret, v)
+			continue
+		}
+		if v[0] < ret[len(ret)-1][0] {
+			ret[len(ret)-1][0] = v[0]
+			continue
+		}
+
+		if v[1] < ret[len(ret)-1][1] {
+			continue
+		}
+
+		ret[len(ret)-1][1] = v[1]
+	}
+
+	return ret
 }
 
 var phoneNumM = map[byte][]byte{
