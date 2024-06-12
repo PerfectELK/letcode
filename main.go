@@ -20,15 +20,28 @@ func main() {
 	//	{1, 4},
 	//	{4, 5},
 	//}
+	//intervals := [][]int{
+	//	{1, 4},
+	//	{0, 4},
+	//}
+	//intervals := [][]int{
+	//	{1, 4},
+	//	{1, 4},
+	//}
 	intervals := [][]int{
-		{1, 4},
-		{0, 4},
+		{2, 3},
+		{4, 5},
+		{1, 10},
 	}
 	r := mergeIntervals(intervals)
 	fmt.Println(r)
 }
 
 func mergeIntervals(intervals [][]int) [][]int {
+	sort.SliceStable(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+
 	ret := make([][]int, 0, len(intervals))
 	ret = append(ret, intervals[0])
 
@@ -36,12 +49,12 @@ func mergeIntervals(intervals [][]int) [][]int {
 		return ret
 	}
 
-	for _, interval := range intervals {
+	for _, interval := range intervals[1:] {
 		if isCrossIntervals(ret[len(ret)-1][0], ret[len(ret)-1][1], interval[0], interval[1]) {
-			ret = append(ret, []int{
-				min(ret[len(ret)-1][0], interval[0]),
-				max(ret[len(ret)-1][1], interval[1]),
-			})
+			ret[len(ret)-1][0] = min(ret[len(ret)-1][0], interval[0])
+			ret[len(ret)-1][1] = max(ret[len(ret)-1][1], interval[1])
+		} else {
+			ret = append(ret, interval)
 		}
 	}
 
@@ -63,19 +76,19 @@ func min(a int, b int) int {
 }
 
 func isCrossIntervals(l1, r1, l2, r2 int) bool {
-	if l2 > l1 && l2 < r1 { // Когда l2 в интервале
+	if l2 >= l1 && l2 <= r1 { // Когда l2 в интервале
 		return true
 	}
 
-	if l1 > l2 && r2 > l1 { // Когда l1 в интервале
+	if l1 >= l2 && r2 >= l1 { // Когда l1 в интервале
 		return true
 	}
 
-	if r1 < r2 && r1 > l2 { // Когда r1 в интервале
+	if r1 <= r2 && r1 >= l2 { // Когда r1 в интервале
 		return true
 	}
 
-	if r2 < r1 && r2 > l1 { // Когда r2 в интервале
+	if r2 <= r1 && r2 >= l1 { // Когда r2 в интервале
 		return true
 	}
 
