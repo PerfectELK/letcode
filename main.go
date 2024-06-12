@@ -36,24 +36,50 @@ func mergeIntervals(intervals [][]int) [][]int {
 		return ret
 	}
 
-	for _, v := range intervals[1:] {
-		if v[0] > ret[len(ret)-1][1] {
-			ret = append(ret, v)
-			continue
+	for _, interval := range intervals {
+		if isCrossIntervals(ret[len(ret)-1][0], ret[len(ret)-1][1], interval[0], interval[1]) {
+			ret = append(ret, []int{
+				min(ret[len(ret)-1][0], interval[0]),
+				max(ret[len(ret)-1][1], interval[1]),
+			})
 		}
-		if v[0] < ret[len(ret)-1][0] {
-			ret[len(ret)-1][0] = v[0]
-			continue
-		}
-
-		if v[1] < ret[len(ret)-1][1] {
-			continue
-		}
-
-		ret[len(ret)-1][1] = v[1]
 	}
 
 	return ret
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func min(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func isCrossIntervals(l1, r1, l2, r2 int) bool {
+	if l2 > l1 && l2 < r1 { // Когда l2 в интервале
+		return true
+	}
+
+	if l1 > l2 && r2 > l1 { // Когда l1 в интервале
+		return true
+	}
+
+	if r1 < r2 && r1 > l2 { // Когда r1 в интервале
+		return true
+	}
+
+	if r2 < r1 && r2 > l1 { // Когда r2 в интервале
+		return true
+	}
+
+	return false
 }
 
 var phoneNumM = map[byte][]byte{
@@ -738,13 +764,6 @@ func calcArea(lI, rI, lVal, rVal int) int {
 	return (rI - lI) * rVal
 }
 
-func min(a int, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 var dirCountMap = map[int][]int{
 	1: {0, -1}, // left
 	2: {-1, 0}, // up
@@ -1210,13 +1229,6 @@ func maxSubArray(nums []int) int {
 		maxSum = max(curSum, maxSum)
 	}
 	return maxSum
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
 }
 
 func reverseByteSlice(arr []byte) {
