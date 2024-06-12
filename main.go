@@ -33,32 +33,33 @@ func main() {
 		{4, 5},
 		{1, 10},
 	}
+
 	r := mergeIntervals(intervals)
 	fmt.Println(r)
+
 }
 
 func mergeIntervals(intervals [][]int) [][]int {
-	sort.SliceStable(intervals, func(i, j int) bool {
+	sort.Slice(intervals, func(i, j int) bool {
 		return intervals[i][0] < intervals[j][0]
 	})
 
-	ret := make([][]int, 0, len(intervals))
-	ret = append(ret, intervals[0])
-
 	if len(intervals) == 1 {
-		return ret
+		return intervals
 	}
 
-	for _, interval := range intervals[1:] {
-		if isCrossIntervals(ret[len(ret)-1][0], ret[len(ret)-1][1], interval[0], interval[1]) {
-			ret[len(ret)-1][0] = min(ret[len(ret)-1][0], interval[0])
-			ret[len(ret)-1][1] = max(ret[len(ret)-1][1], interval[1])
-		} else {
-			ret = append(ret, interval)
+	for i := 1; i < len(intervals); {
+		interval := intervals[i]
+		if isCrossIntervals(intervals[i-1][0], intervals[i-1][1], interval[0], interval[1]) {
+			intervals[i][0] = min(intervals[i-1][0], interval[0])
+			intervals[i][1] = max(intervals[i-1][1], interval[1])
+			intervals = append(intervals[:i-1], intervals[i:]...)
+			continue
 		}
+		i++
 	}
 
-	return ret
+	return intervals
 }
 
 func max(a, b int) int {
