@@ -10,32 +10,41 @@ import (
 )
 
 func main() {
-	//intervals := [][]int{
-	//	{1, 3},
-	//	{2, 6},
-	//	{8, 10},
-	//	{15, 18},
-	//}
-	//intervals := [][]int{
-	//	{1, 4},
-	//	{4, 5},
-	//}
-	//intervals := [][]int{
-	//	{1, 4},
-	//	{0, 4},
-	//}
-	//intervals := [][]int{
-	//	{1, 4},
-	//	{1, 4},
-	//}
-	intervals := [][]int{
-		{2, 3},
-		{4, 5},
-		{1, 10},
-	}
+	n := 2
 
-	r := mergeIntervals(intervals)
+	r := isHappy(n)
 	fmt.Println(r)
+}
+
+func isHappy(n int) bool {
+	resM := make(map[int]struct{})
+
+	arr := make([]int, 0)
+
+	for {
+		for {
+			if n < 10 {
+				arr = append(arr, n)
+				break
+			} else {
+				arr = append(arr, n%10)
+				n /= 10
+			}
+		}
+
+		n = 0
+		for _, num := range arr {
+			n += num * num
+		}
+		arr = nil
+		if n == 1 {
+			return true
+		}
+		if _, ok := resM[n]; ok {
+			return false
+		}
+		resM[n] = struct{}{}
+	}
 
 }
 
