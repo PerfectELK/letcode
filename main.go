@@ -10,10 +10,14 @@ import (
 )
 
 func main() {
-	n := 2
+	n := "1 + 1"
 
-	r := isHappy(n)
+	r := calculate(n)
 	fmt.Println(r)
+}
+
+func calculate(s string) int {
+	return 0
 }
 
 func isHappy(n int) bool {
