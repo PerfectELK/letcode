@@ -10,16 +10,19 @@ import (
 )
 
 func main() {
-	n := "(1+(4+5+2)-3)+(6+8)"
+	//n := "(1+(4+5+2)-3)+(6+8)"
+	n := "1-(     -2)"
+	//n := "1 + 1"
 
 	r := calculate(n)
 	fmt.Println(r)
 }
 
 type mathExpr struct {
-	num  int
-	sign int
-	next *mathExpr
+	num    int
+	numSet bool
+	sign   int
+	next   *mathExpr
 }
 
 func calculate(s string) int {
@@ -29,6 +32,7 @@ func calculate(s string) int {
 	sum := exp.num
 	sign := exp.sign
 	exp = exp.next
+
 	for exp != nil {
 		if sign == 1 {
 			sum += exp.num
@@ -44,7 +48,6 @@ func calculate(s string) int {
 }
 
 func findMathExpr(s string) *mathExpr {
-
 	numS := -1
 
 	exp := mathExpr{
@@ -55,41 +58,30 @@ func findMathExpr(s string) *mathExpr {
 	for i := 0; i < len(s); i++ {
 
 		ch := s[i]
-		if exp.sign != 0 && exp.num != -1 {
-
+		if exp.sign != 0 && exp.numSet {
 			exp.next = findMathExpr(s[i:])
 			return &exp
 		}
 		switch ch {
 		case '(':
-			if exp.num == -1 && numS != -1 {
-				n, _ := strconv.Atoi(s[numS:i])
-				exp.num = n
-			}
+			parset(&exp, numS, i, &s)
 		case ')':
-			if exp.num == -1 && numS != -1 {
-				n, _ := strconv.Atoi(s[numS:i])
-				exp.num = n
-			}
+			parset(&exp, numS, i, &s)
 		case '+':
-			if exp.num == -1 && numS != -1 {
-				n, _ := strconv.Atoi(s[numS:i])
-				exp.num = n
-			}
+			parset(&exp, numS, i, &s)
 			exp.sign = 1
 		case '-':
-			if exp.num == -1 && numS != -1 {
-				n, _ := strconv.Atoi(s[numS:i])
-				exp.num = n
+			parset(&exp, numS, i, &s)
+
+			if !exp.numSet {
+				numS = i
+			} else {
+				exp.sign = -1
 			}
-			exp.sign = -1
 		case ' ':
-			if exp.num == -1 && numS != -1 {
-				n, _ := strconv.Atoi(s[numS:i])
-				exp.num = n
-			}
+			parset(&exp, numS, i, &s)
 		default:
-			if exp.num == -1 && numS == -1 {
+			if !exp.numSet && numS == -1 {
 				numS = i
 			}
 		}
@@ -98,9 +90,18 @@ func findMathExpr(s string) *mathExpr {
 	if exp.num == -1 && numS != -1 {
 		n, _ := strconv.Atoi(s[numS:])
 		exp.num = n
+		exp.numSet = true
 	}
 
 	return &exp
+}
+
+func parset(exp *mathExpr, s, e int, str *string) {
+	if !exp.numSet && s != -1 {
+		n, _ := strconv.Atoi((*str)[s:e])
+		exp.num = n
+		exp.numSet = true
+	}
 }
 
 func isHappy(n int) bool {
