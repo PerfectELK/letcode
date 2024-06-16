@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	n := "1 + 1"
+	n := "(1+(4+5+2)-3)+(6+8)"
 
 	r := calculate(n)
 	fmt.Println(r)
@@ -36,6 +36,7 @@ func calculate(s string) int {
 			sum -= exp.num
 		}
 
+		sign = exp.sign
 		exp = exp.next
 	}
 
@@ -51,33 +52,50 @@ func findMathExpr(s string) *mathExpr {
 		sign: 0,
 		next: nil,
 	}
-
 	for i := 0; i < len(s); i++ {
+
 		ch := s[i]
 		if exp.sign != 0 && exp.num != -1 {
+
 			exp.next = findMathExpr(s[i:])
 			return &exp
 		}
 		switch ch {
 		case '(':
+			if exp.num == -1 && numS != -1 {
+				n, _ := strconv.Atoi(s[numS:i])
+				exp.num = n
+			}
 		case ')':
+			if exp.num == -1 && numS != -1 {
+				n, _ := strconv.Atoi(s[numS:i])
+				exp.num = n
+			}
 		case '+':
+			if exp.num == -1 && numS != -1 {
+				n, _ := strconv.Atoi(s[numS:i])
+				exp.num = n
+			}
 			exp.sign = 1
 		case '-':
+			if exp.num == -1 && numS != -1 {
+				n, _ := strconv.Atoi(s[numS:i])
+				exp.num = n
+			}
 			exp.sign = -1
 		case ' ':
-			if numS != -1 {
+			if exp.num == -1 && numS != -1 {
 				n, _ := strconv.Atoi(s[numS:i])
 				exp.num = n
 			}
 		default:
-			if numS == -1 {
+			if exp.num == -1 && numS == -1 {
 				numS = i
 			}
 		}
 
 	}
-	if numS != -1 {
+	if exp.num == -1 && numS != -1 {
 		n, _ := strconv.Atoi(s[numS:])
 		exp.num = n
 	}
