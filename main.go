@@ -10,14 +10,35 @@ import (
 )
 
 func main() {
-	n := "1 + 1"
+	n := "(1 + (2 - 1)"
 
 	r := calculate(n)
 	fmt.Println(r)
 }
 
+type mathExpr struct {
+	num int
+	sign int
+	next *mathExpr
+}
+
 func calculate(s string) int {
+
+	subExp :=
+
 	return 0
+}
+
+func findSubExpressions(s string) mathExpr {
+	for _, ch := range s {
+		if ch == ' ' {
+			continue
+		}
+
+		if ch == '(' {
+
+		}
+	}
 }
 
 func isHappy(n int) bool {
