@@ -10,35 +10,79 @@ import (
 )
 
 func main() {
-	n := "(1 + (2 - 1)"
+	n := "1 + 1"
 
 	r := calculate(n)
 	fmt.Println(r)
 }
 
 type mathExpr struct {
-	num int
+	num  int
 	sign int
 	next *mathExpr
 }
 
 func calculate(s string) int {
 
-	subExp :=
+	exp := findMathExpr(s)
 
-	return 0
+	sum := exp.num
+	sign := exp.sign
+	exp = exp.next
+	for exp != nil {
+		if sign == 1 {
+			sum += exp.num
+		} else if sign == -1 {
+			sum -= exp.num
+		}
+
+		exp = exp.next
+	}
+
+	return sum
 }
 
-func findSubExpressions(s string) mathExpr {
-	for _, ch := range s {
-		if ch == ' ' {
-			continue
-		}
+func findMathExpr(s string) *mathExpr {
 
-		if ch == '(' {
+	numS := -1
 
-		}
+	exp := mathExpr{
+		num:  -1,
+		sign: 0,
+		next: nil,
 	}
+
+	for i := 0; i < len(s); i++ {
+		ch := s[i]
+		if exp.sign != 0 && exp.num != -1 {
+			exp.next = findMathExpr(s[i:])
+			return &exp
+		}
+		switch ch {
+		case '(':
+		case ')':
+		case '+':
+			exp.sign = 1
+		case '-':
+			exp.sign = -1
+		case ' ':
+			if numS != -1 {
+				n, _ := strconv.Atoi(s[numS:i])
+				exp.num = n
+			}
+		default:
+			if numS == -1 {
+				numS = i
+			}
+		}
+
+	}
+	if numS != -1 {
+		n, _ := strconv.Atoi(s[numS:])
+		exp.num = n
+	}
+
+	return &exp
 }
 
 func isHappy(n int) bool {
