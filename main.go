@@ -11,11 +11,63 @@ import (
 
 func main() {
 	//n := "(1+(4+5+2)-3)+(6+8)"
-	n := "1-(     -2)"
+	//n := "1-(     -2)"
 	//n := "1 + 1"
+	//n := "- (3 + (4 + 5))"
 
-	r := calculate(n)
-	fmt.Println(r)
+	//r := calculate(n)
+	//fmt.Println(r)
+
+	//tree := SliceToTree([]int{3, 9, 20, 15, 7})
+	////
+	//tree.Left.Left.Left = &TreeNode{
+	//	Val:   25,
+	//	Left:  nil,
+	//	Right: nil,
+	//}
+
+	node4_left := &TreeNode{Val: 4}
+	node3_left := &TreeNode{Val: 3, Left: node4_left}
+
+	node4_right := &TreeNode{Val: 4}
+	node3_right := &TreeNode{Val: 3, Right: node4_right}
+
+	node2_left := &TreeNode{Val: 2, Left: node3_left}
+	node2_right := &TreeNode{Val: 2, Right: node3_right}
+
+	tree := &TreeNode{Val: 1, Left: node2_left, Right: node2_right}
+
+	res := isBalanced(tree)
+
+	fmt.Println(res)
+}
+
+func isBalanced(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+
+	_, b := checkDepth2(root, 0)
+
+	return b
+}
+
+func checkDepth2(node *TreeNode, count int) (int, bool) {
+	if node == nil {
+		return count, true
+	}
+
+	l, b1 := checkDepth2(node.Left, count+1)
+	r, b2 := checkDepth2(node.Right, count+1)
+
+	if !b1 || !b2 || abs(l-r) > 1 {
+		return 0, false
+	}
+
+	if l > r {
+		return l, true
+	}
+	return r, true
 }
 
 type mathExpr struct {
@@ -26,7 +78,6 @@ type mathExpr struct {
 }
 
 func calculate(s string) int {
-
 	exp := findMathExpr(s)
 
 	sum := exp.num
@@ -56,7 +107,6 @@ func findMathExpr(s string) *mathExpr {
 		next: nil,
 	}
 	for i := 0; i < len(s); i++ {
-
 		ch := s[i]
 		if exp.sign != 0 && exp.numSet {
 			exp.next = findMathExpr(s[i:])
