@@ -10,36 +10,30 @@ import (
 )
 
 func main() {
-	//n := "(1+(4+5+2)-3)+(6+8)"
-	//n := "1-(     -2)"
-	//n := "1 + 1"
-	//n := "- (3 + (4 + 5))"
 
-	//r := calculate(n)
-	//fmt.Println(r)
+	cases := []struct {
+		in     string
+		nr     int
+		assert string
+	}{
+		{
+			in:     "PAYPALISHIRING",
+			nr:     3,
+			assert: "PAHNAPLSIIGYIR",
+		},
+	}
 
-	//tree := SliceToTree([]int{3, 9, 20, 15, 7})
-	////
-	//tree.Left.Left.Left = &TreeNode{
-	//	Val:   25,
-	//	Left:  nil,
-	//	Right: nil,
-	//}
+	for _, c := range cases {
+		res := convert(c.in, c.nr)
 
-	node4_left := &TreeNode{Val: 4}
-	node3_left := &TreeNode{Val: 3, Left: node4_left}
+		if res != c.assert {
+			panic(res)
+		}
+	}
+}
 
-	node4_right := &TreeNode{Val: 4}
-	node3_right := &TreeNode{Val: 3, Right: node4_right}
+func convert(s string, numRows int) string {
 
-	node2_left := &TreeNode{Val: 2, Left: node3_left}
-	node2_right := &TreeNode{Val: 2, Right: node3_right}
-
-	tree := &TreeNode{Val: 1, Left: node2_left, Right: node2_right}
-
-	res := isBalanced(tree)
-
-	fmt.Println(res)
 }
 
 func isBalanced(root *TreeNode) bool {
@@ -68,90 +62,6 @@ func checkDepth2(node *TreeNode, count int) (int, bool) {
 		return l, true
 	}
 	return r, true
-}
-
-type mathExpr struct {
-	num    int
-	numSet bool
-	sign   int
-	next   *mathExpr
-}
-
-func calculate(s string) int {
-	exp := findMathExpr(s)
-
-	sum := exp.num
-	sign := exp.sign
-	exp = exp.next
-
-	for exp != nil {
-		if sign == 1 {
-			sum += exp.num
-		} else if sign == -1 {
-			sum -= exp.num
-		}
-
-		sign = exp.sign
-		exp = exp.next
-	}
-
-	return sum
-}
-
-func findMathExpr(s string) *mathExpr {
-	numS := -1
-
-	exp := mathExpr{
-		num:  -1,
-		sign: 0,
-		next: nil,
-	}
-	for i := 0; i < len(s); i++ {
-		ch := s[i]
-		if exp.sign != 0 && exp.numSet {
-			exp.next = findMathExpr(s[i:])
-			return &exp
-		}
-		switch ch {
-		case '(':
-			parset(&exp, numS, i, &s)
-		case ')':
-			parset(&exp, numS, i, &s)
-		case '+':
-			parset(&exp, numS, i, &s)
-			exp.sign = 1
-		case '-':
-			parset(&exp, numS, i, &s)
-
-			if !exp.numSet {
-				numS = i
-			} else {
-				exp.sign = -1
-			}
-		case ' ':
-			parset(&exp, numS, i, &s)
-		default:
-			if !exp.numSet && numS == -1 {
-				numS = i
-			}
-		}
-
-	}
-	if exp.num == -1 && numS != -1 {
-		n, _ := strconv.Atoi(s[numS:])
-		exp.num = n
-		exp.numSet = true
-	}
-
-	return &exp
-}
-
-func parset(exp *mathExpr, s, e int, str *string) {
-	if !exp.numSet && s != -1 {
-		n, _ := strconv.Atoi((*str)[s:e])
-		exp.num = n
-		exp.numSet = true
-	}
 }
 
 func isHappy(n int) bool {
