@@ -10,30 +10,72 @@ import (
 )
 
 func main() {
+	testConvert()
+}
 
+func testConvert() {
 	cases := []struct {
-		in     string
+		s      string
 		nr     int
 		assert string
 	}{
 		{
-			in:     "PAYPALISHIRING",
+			s:      "PAYPALISHIRING",
 			nr:     3,
 			assert: "PAHNAPLSIIGYIR",
+		},
+		{
+			s:      "PAYPALISHIRING",
+			nr:     4,
+			assert: "PINALSIGYAHRPI",
+		},
+		{
+			s:      "A",
+			nr:     1,
+			assert: "A",
+		},
+		{
+			s:      "AB",
+			nr:     1,
+			assert: "AB",
 		},
 	}
 
 	for _, c := range cases {
-		res := convert(c.in, c.nr)
+		res := convert(c.s, c.nr)
 
 		if res != c.assert {
-			panic(res)
+			fmt.Printf("failed: convert with s (%s, %d), res = %s, await = %s \n", c.s, c.nr, res, c.assert)
+		} else {
+			fmt.Printf("OK: convert (%s, %d )  \n", c.s, c.nr)
 		}
 	}
+	fmt.Println("convert() tests passed success")
 }
 
 func convert(s string, numRows int) string {
+	res := make([][]byte, numRows)
 
+	c, direction := 0, 1
+	for _, ch := range s {
+		switch c {
+		case numRows - 1:
+			direction = -1
+		case 0:
+			direction = 1
+		}
+		res[c] = append(res[c], byte(ch))
+		c += direction
+		if c < 0 {
+			c = 0
+		}
+	}
+
+	sb := strings.Builder{}
+	for _, ss := range res {
+		sb.Write(ss)
+	}
+	return sb.String()
 }
 
 func isBalanced(root *TreeNode) bool {
