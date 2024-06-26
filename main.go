@@ -47,6 +47,20 @@ func testIsValidSudoku() {
 			},
 			assert: false,
 		},
+		{
+			board: [][]byte{
+				{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+				{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+				{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+				{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+				{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+				{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+				{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+				{'.', '.', '.', '4', '1', '9', '.', '.', '2'},
+				{'.', '.', '.', '.', '8', '.', '.', '7', '9'},
+			},
+			assert: false,
+		},
 	}
 	isAllTestPass := true
 	for _, c := range cases {
@@ -65,6 +79,74 @@ func testIsValidSudoku() {
 }
 
 func isValidSudoku(board [][]byte) bool {
+	for _, row := range board {
+		if isValidRow := checkSudokuRow(row); !isValidRow {
+			return false
+		}
+	}
+
+	if isValidCols := checkSudokuCols(board); !isValidCols {
+		return false
+	}
+
+	row, sI := 0, 0
+
+	ttCache := make(map[byte]struct{})
+	for i := 0; i < 9; i++ {
+		for cR := row; cR < row+3; cR++ {
+			for j := sI; j < sI+3; j++ {
+				b := board[cR][j]
+				if b == '.' {
+					continue
+				}
+				if _, ok := ttCache[b]; ok {
+					return false
+				}
+				ttCache[b] = struct{}{}
+			}
+		}
+		clear(ttCache)
+		if sI == 6 {
+			row += 3
+			sI = 0
+		} else {
+			sI += 3
+		}
+	}
+
+	return true
+}
+
+func checkSudokuCols(board [][]byte) bool {
+	colCache := make(map[byte]struct{})
+	for i := 0; i < len(board[0]); i++ {
+
+		for bI := 0; bI < len(board); bI++ {
+			b := board[bI][i]
+			if b == '.' {
+				continue
+			}
+			if _, ok := colCache[b]; ok {
+				return false
+			}
+			colCache[b] = struct{}{}
+		}
+		clear(colCache)
+	}
+	return true
+}
+
+func checkSudokuRow(row []byte) bool {
+	rowCache := make(map[byte]struct{})
+	for _, b := range row {
+		if b == '.' {
+			continue
+		}
+		if _, ok := rowCache[b]; ok {
+			return false
+		}
+		rowCache[b] = struct{}{}
+	}
 	return true
 }
 
