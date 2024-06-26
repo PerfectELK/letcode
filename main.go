@@ -10,7 +10,62 @@ import (
 )
 
 func main() {
-	testConvert()
+	testIsValidSudoku()
+}
+
+func testIsValidSudoku() {
+
+	cases := []struct {
+		board  [][]byte
+		assert bool
+	}{
+		{
+			board: [][]byte{
+				{'5', '3', '.', '.', '7', '.', '.', '.', '.'},
+				{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+				{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+				{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+				{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+				{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+				{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+				{'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+				{'.', '.', '.', '.', '8', '.', '.', '7', '9'},
+			},
+			assert: true,
+		},
+		{
+			board: [][]byte{
+				{'8', '3', '.', '.', '7', '.', '.', '.', '.'},
+				{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+				{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+				{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+				{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+				{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+				{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+				{'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+				{'.', '.', '.', '.', '8', '.', '.', '7', '9'},
+			},
+			assert: false,
+		},
+	}
+	isAllTestPass := true
+	for _, c := range cases {
+		res := isValidSudoku(c.board)
+
+		if res != c.assert {
+			fmt.Printf("failed: isValidSudoku (%s), expect: %t, returned: %t \n", c.board, c.assert, res)
+			isAllTestPass = false
+		} else {
+			fmt.Printf("ok: isValidSudoku (%s)  \n", c.board)
+		}
+	}
+	if isAllTestPass {
+		fmt.Println("isValidSudoku() tests passed success")
+	}
+}
+
+func isValidSudoku(board [][]byte) bool {
+	return true
 }
 
 func testConvert() {
