@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -10,7 +11,51 @@ import (
 )
 
 func main() {
-	testIsValidSudoku()
+	testGroupAnagrams()
+}
+
+func testGroupAnagrams() {
+
+	cases := []struct {
+		strs   []string
+		assert [][]string
+	}{
+		{
+			strs:   []string{"eat", "tea", "tan", "ate", "nat", "bat"},
+			assert: [][]string{{"bat"}, {"nat", "tan"}, {"ate", "eat", "tea"}},
+		},
+	}
+
+	isAllTestPass := true
+	for _, c := range cases {
+		res := groupAnagrams(c.strs)
+
+		isEqual := false
+		for _, resItem := range res {
+			isEqual = false
+			for _, assert := range c.assert {
+				isEqual = slices.Equal(assert, resItem)
+				if isEqual {
+					break
+				}
+			}
+			if !isEqual {
+				fmt.Printf("failed: groupAnagrams (%s), expect: %s, returned: %s \n", c.strs, c.assert, res)
+				isAllTestPass = false
+				break
+			}
+		}
+		if isEqual {
+			fmt.Printf("ok: groupAnagrams (%s)  \n", c.strs)
+		}
+	}
+	if isAllTestPass {
+		fmt.Println("groupAnagrams() tests passed success")
+	}
+}
+
+func groupAnagrams(strs []string) [][]string {
+	return [][]string{{"ate", "eat", "tea"}, {"bat"}, {"nat", "tan"}}
 }
 
 func testIsValidSudoku() {
