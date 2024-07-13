@@ -34,7 +34,7 @@ func testGroupAnagrams() {
 		for _, resItem := range res {
 			isEqual = false
 			for _, assert := range c.assert {
-				isEqual = slices.Equal(assert, resItem)
+				isEqual = equalElemsInArr(assert, resItem)
 				if isEqual {
 					break
 				}
@@ -54,8 +54,43 @@ func testGroupAnagrams() {
 	}
 }
 
+func equalElemsInArr[T comparable](arr []T, arr2 []T) bool {
+	for _, item := range arr {
+		itemContain := false
+		for _, item2 := range arr2 {
+			if item == item2 {
+				itemContain = true
+				break
+			}
+		}
+		if !itemContain {
+			return false
+		}
+	}
+	return true
+}
+
 func groupAnagrams(strs []string) [][]string {
-	return [][]string{{"ate", "eat", "tea"}, {"bat"}, {"nat", "tan"}}
+	anagramsCache := make(map[string][]string)
+
+	var ret [][]string
+
+	for _, str := range strs {
+		b := []byte(str)
+		slices.Sort(b)
+		sortedStr := string(b)
+		if _, ok := anagramsCache[sortedStr]; ok {
+			anagramsCache[sortedStr] = append(anagramsCache[sortedStr], str)
+		} else {
+			anagramsCache[sortedStr] = []string{str}
+		}
+	}
+
+	for _, v := range anagramsCache {
+		ret = append(ret, v)
+	}
+
+	return ret
 }
 
 func testIsValidSudoku() {
