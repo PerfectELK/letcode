@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
 	"math"
 	"slices"
@@ -11,7 +12,53 @@ import (
 )
 
 func main() {
-	testGroupAnagrams()
+	res := permuteUnique([]int{1, 2, 3})
+	fmt.Println(res)
+}
+
+func permuteUnique(nums []int) [][]int {
+	res := make([][]int, 0)
+	permCache := make(map[string]struct{})
+
+	backtrackUnique(permCache, map[int]struct{}{}, &res, nums, []int{})
+	return res
+}
+
+func backtrackUnique(cacheRes map[string]struct{}, cache map[int]struct{}, res *[][]int, nums []int, cur []int) {
+	if len(cur) == len(nums) {
+		curStr := ArrNumsToStr(cur)
+		if _, ok := cacheRes[curStr]; !ok {
+			c := make([]int, len(cur))
+			copy(c, cur)
+			*res = append(*res, c)
+			cacheRes[curStr] = struct{}{}
+		}
+		return
+	}
+
+	for i, num := range nums {
+		if _, ok := cache[i]; ok {
+			continue
+		}
+		cache[i] = struct{}{}
+		cur = append(cur, num)
+
+		backtrackUnique(cacheRes, cache, res, nums, cur)
+
+		delete(cache, i)
+		cur = cur[:len(cur)-1]
+	}
+}
+
+func ArrNumsToStr(arr []int) string {
+	str := strings.Builder{}
+	for _, n := range arr {
+		ba := make([]byte, 4)
+		binary.LittleEndian.PutUint32(ba, uint32(n))
+		ba = append(ba, '-')
+		str.Write(ba)
+	}
+	return str.String()
 }
 
 func testGroupAnagrams() {
