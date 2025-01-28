@@ -12,9 +12,8 @@ import (
 )
 
 func main() {
-
-	fmt.Println(100000 / 10)
-
+	n := addDigits(156)
+	fmt.Println(n)
 }
 
 func addDigits(num int) int {
@@ -23,17 +22,31 @@ func addDigits(num int) int {
 	}
 
 	for num >= 10 {
-
+		ints := digestOfNum(num)
+		num = 0
+		for _, i := range ints {
+			num += i
+		}
 	}
 
-	return 0
+	return num
 }
+
+var digitsArr = make([]int, 0)
 
 func digestOfNum(num int) []int {
 	if num < 10 {
 		return []int{num}
 	}
-	return nil
+	clear(digitsArr)
+	for {
+		if num < 10 {
+			digitsArr = append(digitsArr, num)
+			return digitsArr
+		}
+		digitsArr = append(digitsArr, num%10)
+		num /= 10
+	}
 }
 
 type LRUCache struct {
