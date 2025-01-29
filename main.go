@@ -12,8 +12,31 @@ import (
 )
 
 func main() {
-	n := addDigits(156)
-	fmt.Println(n)
+	//nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	nums := []int{-10, -3, 0, 5, 9}
+	bt := sortedArrayToBST(nums)
+	fmt.Println(PrintTree(bt))
+}
+
+func sortedArrayToBST(nums []int) *TreeNode {
+	if len(nums) == 0 {
+		return nil
+	}
+	middle := int(
+		math.Ceil(float64(len(nums))/float64(2))) - 1
+	if middle < 0 {
+		middle = 0
+	}
+	node := &TreeNode{
+		Val: nums[middle],
+	}
+	if middle != 0 {
+		node.Left = sortedArrayToBST(nums[:middle])
+	}
+	if len(nums)-middle > 1 {
+		node.Right = sortedArrayToBST(nums[middle+1:])
+	}
+	return node
 }
 
 func addDigits(num int) int {
