@@ -12,18 +12,126 @@ import (
 )
 
 func main() {
+	//board := [][]byte{
+	//	{'Z', 'U', 'A'},
+	//	{'A', 'L', 'U'},
+	//	{'K', 'A', 'P'},
+	//}
+	//board := [][]byte{
+	//	{'C', 'O', 'C', 'K'},
+	//}
 	board := [][]byte{
-		{'Z', 'P', 'A'},
-		{'A', 'L', 'U'},
-		{'K', 'A', 'P'},
+		{'A', 'A', 'A', 'A', 'A', 'A'},
+		{'A', 'A', 'A', 'A', 'A', 'A'},
+		{'A', 'A', 'A', 'A', 'A', 'A'},
+		{'A', 'A', 'A', 'A', 'A', 'A'},
+		{'A', 'A', 'A', 'A', 'A', 'A'},
+		{'A', 'A', 'A', 'A', 'A', 'A'},
 	}
-	word := "ZALUPA"
+	//word := "ZALUPA"
+	//word := "COCK"
+	word := "AAAAAAAAAAAAAAB"
+
 	ex := exist(board, word)
 	fmt.Println(ex)
 }
 
 func exist(board [][]byte, word string) bool {
-	return true
+	if word == "" {
+		return true
+	}
+	first := word[0]
+	row, col := 0, 0
+	for {
+		if row > len(board)-1 {
+			break
+		}
+
+		row, col = searchFirstIn(board, row, col, first)
+		if row == -1 && col == -1 {
+			break
+		}
+		ex := searchWord(board, word[1:], row, col, map[string]struct{}{
+			fmt.Sprintf("%d-%d", row, col): {},
+		})
+		if ex {
+			return true
+		}
+
+		if col == len(board[0])-1 {
+			row++
+			col = 0
+		} else {
+			col++
+		}
+	}
+	return false
+}
+
+func searchWord(board [][]byte, word string, r, c int, ignoreMap map[string]struct{}) bool {
+	if word == "" {
+		return true
+	}
+	arr := searchCharNear(board, r, c, ignoreMap, byte(word[0]))
+	if len(arr) == 0 {
+		return false
+	} else {
+		for _, v := range arr {
+			nMap := make(map[string]struct{}, len(ignoreMap))
+			for k := range ignoreMap {
+				nMap[k] = struct{}{}
+			}
+			nMap[fmt.Sprintf("%d-%d", v[0], v[1])] = struct{}{}
+			searched := searchWord(board, word[1:], v[0], v[1], nMap)
+			if searched {
+				return true
+			}
+		}
+		return false
+	}
+}
+
+func searchCharNear(board [][]byte, row, col int, ignoreM map[string]struct{}, letter byte) [][]int {
+	l, u, r, b := -1, -1, -1, -1
+	ret := make([][]int, 0, 4)
+	if col-1 >= 0 {
+		l = col - 1
+		if _, ok := ignoreM[fmt.Sprintf("%d-%d", row, l)]; !ok && board[row][l] == letter {
+			ret = append(ret, []int{row, l})
+		}
+	}
+	if row-1 >= 0 {
+		u = row - 1
+		if _, ok := ignoreM[fmt.Sprintf("%d-%d", u, col)]; !ok && board[u][col] == letter {
+			ret = append(ret, []int{u, col})
+		}
+	}
+	if col+1 < len(board[0]) {
+		r = col + 1
+		if _, ok := ignoreM[fmt.Sprintf("%d-%d", row, r)]; !ok && board[row][r] == letter {
+			ret = append(ret, []int{row, r})
+		}
+
+	}
+	if row+1 < len(board) {
+		b = row + 1
+		if _, ok := ignoreM[fmt.Sprintf("%d-%d", b, col)]; !ok && board[b][col] == letter {
+			ret = append(ret, []int{b, col})
+		}
+	}
+
+	return ret
+}
+
+func searchFirstIn(board [][]byte, row, col int, letter byte) (int, int) {
+	for i := row; i < len(board); i++ {
+		for j := col; j < len(board[i]); j++ {
+			if board[i][j] == letter {
+				return i, j
+			}
+		}
+	}
+	return -1, -1
 }
 
 func sortedArrayToBST(nums []int) *TreeNode {
