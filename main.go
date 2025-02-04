@@ -12,10 +12,18 @@ import (
 )
 
 func main() {
-	//nums := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	nums := []int{-10, -3, 0, 5, 9}
-	bt := sortedArrayToBST(nums)
-	fmt.Println(PrintTree(bt))
+	board := [][]byte{
+		{'Z', 'P', 'A'},
+		{'A', 'L', 'U'},
+		{'K', 'A', 'P'},
+	}
+	word := "ZALUPA"
+	ex := exist(board, word)
+	fmt.Println(ex)
+}
+
+func exist(board [][]byte, word string) bool {
+	return true
 }
 
 func sortedArrayToBST(nums []int) *TreeNode {
