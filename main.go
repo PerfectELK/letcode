@@ -12,28 +12,102 @@ import (
 )
 
 func main() {
-	//board := [][]byte{
-	//	{'Z', 'U', 'A'},
-	//	{'A', 'L', 'U'},
-	//	{'K', 'A', 'P'},
-	//}
-	//board := [][]byte{
-	//	{'C', 'O', 'C', 'K'},
-	//}
-	board := [][]byte{
-		{'A', 'A', 'A', 'A', 'A', 'A'},
-		{'A', 'A', 'A', 'A', 'A', 'A'},
-		{'A', 'A', 'A', 'A', 'A', 'A'},
-		{'A', 'A', 'A', 'A', 'A', 'A'},
-		{'A', 'A', 'A', 'A', 'A', 'A'},
-		{'A', 'A', 'A', 'A', 'A', 'A'},
-	}
-	//word := "ZALUPA"
-	//word := "COCK"
-	word := "AAAAAAAAAAAAAAB"
 
-	ex := exist(board, word)
-	fmt.Println(ex)
+	//head := &ListNode{
+	//	Val: 1,
+	//	Next: &ListNode{
+	//		Val: 1,
+	//		Next: &ListNode{
+	//			Val: 1,
+	//			Next: &ListNode{
+	//				Val: 2,
+	//				Next: &ListNode{
+	//					Val: 3,
+	//				},
+	//			},
+	//		},
+	//	},
+	//}
+
+	head := &ListNode{
+		Val: 1,
+		Next: &ListNode{
+			Val: 2,
+			Next: &ListNode{
+				Val: 3,
+				Next: &ListNode{
+					Val: 3,
+					Next: &ListNode{
+						Val: 4,
+						Next: &ListNode{
+							Val: 4,
+							Next: &ListNode{
+								Val: 5,
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	r := deleteDuplicates2(head)
+
+	for {
+		fmt.Println(r)
+		if r == nil {
+			break
+		}
+		r = r.Next
+	}
+
+}
+
+func deleteDuplicates2(head *ListNode) *ListNode {
+	if head == nil {
+		return head
+	}
+
+	curr := head
+	var prev *ListNode
+	lastRemoved := -101
+
+	for {
+		if curr == nil {
+			break
+		}
+		next := curr.Next
+		if curr.Val == lastRemoved {
+			curr = next
+			if prev != nil {
+				prev.Next = curr
+			}
+			if prev == nil {
+				head = curr
+			}
+			continue
+		}
+		if next == nil {
+			break
+		}
+		if next.Val != curr.Val {
+			prev = curr
+			curr = next
+			continue
+		}
+
+		lastRemoved = curr.Val
+		if prev == nil {
+			curr.Next = next.Next
+			head = curr.Next
+		}
+
+		if prev != nil {
+			prev.Next = curr.Next
+		}
+		curr = curr.Next
+	}
+	return head
 }
 
 func exist(board [][]byte, word string) bool {
