@@ -13,54 +13,30 @@ import (
 
 func main() {
 
-	//head := &ListNode{
-	//	Val: 1,
-	//	Next: &ListNode{
-	//		Val: 1,
-	//		Next: &ListNode{
-	//			Val: 1,
-	//			Next: &ListNode{
-	//				Val: 2,
-	//				Next: &ListNode{
-	//					Val: 3,
-	//				},
-	//			},
-	//		},
-	//	},
-	//}
+}
 
-	head := &ListNode{
-		Val: 1,
-		Next: &ListNode{
-			Val: 2,
-			Next: &ListNode{
-				Val: 3,
-				Next: &ListNode{
-					Val: 3,
-					Next: &ListNode{
-						Val: 4,
-						Next: &ListNode{
-							Val: 4,
-							Next: &ListNode{
-								Val: 5,
-							},
-						},
-					},
-				},
-			},
-		},
+func canJump(nums []int) bool {
+	if len(nums) <= 1 {
+		return true
 	}
-
-	r := deleteDuplicates2(head)
-
-	for {
-		fmt.Println(r)
-		if r == nil {
-			break
+	largestN := nums[0]
+	if largestN == 0 {
+		return false
+	}
+	nn := nums[1:]
+	for i, n := range nn {
+		largestN--
+		if n > largestN {
+			largestN = n
 		}
-		r = r.Next
+		if i == len(nn)-1 {
+			return true
+		}
+		if largestN == 0 {
+			return false
+		}
 	}
-
+	return true
 }
 
 func deleteDuplicates2(head *ListNode) *ListNode {
