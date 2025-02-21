@@ -11,8 +11,31 @@ import (
 	"unicode"
 )
 
-func main() {
+func searchRange(nums []int, target int) []int {
+	res := make([]int, 2)
+	res[0], res[1] = -1, -1
+	if len(nums) == 0 {
+		return res
+	}
 
+	searched := false
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == target && res[0] == -1 {
+			searched = true
+			res[0] = i
+		} else if nums[i] == target && res[0] != -1 {
+			res[1] = i
+		}
+		if nums[i] != target && searched {
+			break
+		}
+	}
+
+	if res[0] != -1 && res[1] == -1 {
+		res[1] = res[0]
+	}
+
+	return res
 }
 
 func canJump(nums []int) bool {
