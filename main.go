@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"math"
 	"slices"
@@ -10,6 +11,27 @@ import (
 	"strings"
 	"unicode"
 )
+
+var noValid = map[string]struct{}{
+	"inf":       struct{}{},
+	"+inf":      struct{}{},
+	"-inf":      struct{}{},
+	"Infinity":  struct{}{},
+	"+Infinity": struct{}{},
+	"-Infinity": struct{}{},
+	"nan":       struct{}{},
+}
+
+func isNumber(s string) bool {
+	if _, ok := noValid[s]; ok {
+		return false
+	}
+	_, err := strconv.ParseFloat(s, 64)
+	if err != nil && errors.Is(err, strconv.ErrRange) {
+		return true
+	}
+	return err == nil
+}
 
 func searchRange(nums []int, target int) []int {
 	res := make([]int, 2)

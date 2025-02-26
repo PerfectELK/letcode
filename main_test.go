@@ -6,6 +6,54 @@ import (
 	"testing"
 )
 
+func TestIsNumber(t *testing.T) {
+	cases := []struct {
+		res bool
+		num string
+	}{
+		{
+			num: "0",
+			res: true,
+		},
+		{
+			num: "e",
+			res: false,
+		},
+		{
+			num: ".",
+			res: false,
+		},
+		{
+			num: "0089",
+			res: true,
+		},
+		{
+			num: "2e10",
+			res: true,
+		},
+		{
+			num: "1e",
+			res: false,
+		},
+		{
+			num: "inf",
+			res: false,
+		},
+		{
+			num: "-8115e957",
+			res: true,
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(fmt.Sprintf("IsNumber(%v)", c.num), func(t *testing.T) {
+			r := isNumber(c.num)
+			require.Equal(t, c.res, r)
+		})
+	}
+}
+
 func TestSearchRange(t *testing.T) {
 	cases := []struct {
 		res    []int
