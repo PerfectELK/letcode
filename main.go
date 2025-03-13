@@ -12,6 +12,40 @@ import (
 	"unicode"
 )
 
+func Candy(ratings []int) int {
+	result := 1
+	lI := findLowerNumIdx(ratings)
+
+	prevRating := ratings[lI]
+	currRatingCounter := 1
+	for i := lI - 1; i >= 0; i-- {
+		r := ratings[i]
+		if r > prevRating {
+			currRatingCounter++
+			result += currRatingCounter
+		} else if r == prevRating {
+			result += currRatingCounter
+		} else if r < prevRating {
+			currRatingCounter--
+			result += currRatingCounter
+		}
+		prevRating = r
+	}
+
+	return 0
+}
+
+func findLowerNumIdx(ratings []int) int {
+	lower, lowerI := 0, 0
+	for i := 0; i < len(ratings); i++ {
+		if lower == 0 || ratings[i] < lower {
+			lower = ratings[i]
+			lowerI = i
+		}
+	}
+	return lowerI
+}
+
 var noValid = map[string]struct{}{
 	"inf":       struct{}{},
 	"+inf":      struct{}{},

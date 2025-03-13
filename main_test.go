@@ -6,6 +6,30 @@ import (
 	"testing"
 )
 
+func TestCandy(t *testing.T) {
+	cases := []struct {
+		ratings []int
+		result  int
+	}{
+		{
+			ratings: []int{1, 0, 2},
+			result:  5,
+		},
+		{
+			ratings: []int{1, 2, 2},
+			result:  4,
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(fmt.Sprintf("Candy(%v)", c.ratings), func(t *testing.T) {
+			r := Candy(c.ratings)
+			require.Equal(t, c.result, r)
+		})
+	}
+}
+
 func TestIsNumber(t *testing.T) {
 	cases := []struct {
 		res bool
