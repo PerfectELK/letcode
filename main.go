@@ -13,37 +13,34 @@ import (
 )
 
 func Candy(ratings []int) int {
-	result := 1
-	lI := findLowerNumIdx(ratings)
+	n := len(ratings)
+	left := make([]int, n)
+	right := make([]int, n)
 
-	prevRating := ratings[lI]
-	currRatingCounter := 1
-	for i := lI - 1; i >= 0; i-- {
-		r := ratings[i]
-		if r > prevRating {
-			currRatingCounter++
-			result += currRatingCounter
-		} else if r == prevRating {
-			result += currRatingCounter
-		} else if r < prevRating {
-			currRatingCounter--
-			result += currRatingCounter
-		}
-		prevRating = r
-	}
-
-	return 0
-}
-
-func findLowerNumIdx(ratings []int) int {
-	lower, lowerI := 0, 0
-	for i := 0; i < len(ratings); i++ {
-		if lower == 0 || ratings[i] < lower {
-			lower = ratings[i]
-			lowerI = i
+	left[0] = 1
+	for i := 1; i < n; i++ {
+		if ratings[i] > ratings[i-1] {
+			left[i] = left[i-1] + 1
+		} else {
+			left[i] = 1
 		}
 	}
-	return lowerI
+
+	right[n-1] = 1
+	for i := n - 2; i >= 0; i-- {
+		if ratings[i] > ratings[i+1] {
+			right[i] = right[i+1] + 1
+		} else {
+			right[i] = 1
+		}
+	}
+
+	cmp := 0
+	for i := 0; i < n; i++ {
+		cmp += max(left[i], right[i])
+	}
+
+	return cmp
 }
 
 var noValid = map[string]struct{}{

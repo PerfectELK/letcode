@@ -19,6 +19,14 @@ func TestCandy(t *testing.T) {
 			ratings: []int{1, 2, 2},
 			result:  4,
 		},
+		{
+			ratings: []int{1, 3, 2, 2, 1},
+			result:  7,
+		},
+		{
+			ratings: []int{1, 2, 87, 87, 87, 2, 1},
+			result:  13,
+		},
 	}
 
 	for _, c := range cases {
