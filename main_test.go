@@ -6,6 +6,28 @@ import (
 	"testing"
 )
 
+func TestMaxPoints(t *testing.T) {
+	cases := []struct {
+		points [][]int
+		result int
+	}{
+		{
+			points: [][]int{
+				{1, 1}, {2, 2}, {3, 3},
+			},
+			result: 3,
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(fmt.Sprintf("MaxPoints(%v)", c.points), func(t *testing.T) {
+			r := maxPoints(c.points)
+			require.Equal(t, c.result, r)
+		})
+	}
+}
+
 func TestCandy(t *testing.T) {
 	cases := []struct {
 		ratings []int

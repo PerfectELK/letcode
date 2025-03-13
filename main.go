@@ -12,6 +12,10 @@ import (
 	"unicode"
 )
 
+func maxPoints(points [][]int) int {
+	return 0
+}
+
 func Candy(ratings []int) int {
 	n := len(ratings)
 	left := make([]int, n)
