@@ -13,7 +13,39 @@ import (
 )
 
 func maxPoints(points [][]int) int {
-	return 0
+	if len(points) == 1 {
+		return 1
+	}
+	lines := make([][][]int, 0, len(points)*len(points))
+	for i, point := range points {
+		for j, point2 := range points {
+			if i == j {
+				continue
+			}
+			lines = append(lines, [][]int{
+				point,
+				point2,
+			})
+		}
+	}
+
+	maxP := 0
+	for _, line := range lines {
+		currMax := 0
+		for _, point := range points {
+			if isPointOnLine(line, point) {
+				currMax++
+			}
+		}
+		if currMax > maxP {
+			maxP = currMax
+		}
+	}
+	return maxP
+}
+
+func isPointOnLine(line [][]int, point []int) bool {
+	return (line[1][1]-line[0][1])*(point[0]-line[0][0])-(line[1][0]-line[0][0])*(point[1]-line[0][1]) == 0
 }
 
 func Candy(ratings []int) int {

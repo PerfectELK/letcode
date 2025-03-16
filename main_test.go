@@ -17,6 +17,18 @@ func TestMaxPoints(t *testing.T) {
 			},
 			result: 3,
 		},
+		{
+			points: [][]int{
+				{1, 1}, {3, 2}, {5, 3}, {4, 1}, {2, 3}, {1, 4},
+			},
+			result: 4,
+		},
+		{
+			points: [][]int{
+				{0, 0},
+			},
+			result: 1,
+		},
 	}
 
 	for _, c := range cases {
