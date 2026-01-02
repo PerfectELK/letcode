@@ -22,7 +22,5 @@ impl Solution {
 
 
 fn main() {
-    let r = Solution::convert_to_title(12);
-    println!("{}", r);
 }
 

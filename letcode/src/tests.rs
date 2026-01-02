@@ -8,13 +8,13 @@ fn convert_to_title(){
     }
 
     let cases = vec![
-        // TestCase{column_number: 0, result: "".to_string()},
-        // TestCase{column_number: 1, result: "A".to_string()},
-        //TestCase{column_number: 26, result: "Z".to_string()},
+        TestCase{column_number: 0, result: "".to_string()},
+        TestCase{column_number: 1, result: "A".to_string()},
+        TestCase{column_number: 26, result: "Z".to_string()},
         TestCase{column_number: 52, result: "AZ".to_string()},
-        // TestCase{column_number: 28, result: "AB".to_string()},
-        // TestCase{column_number: 701, result: "ZY".to_string()},
-        // TestCase{column_number: 703, result: "AAA".to_string()},
+        TestCase{column_number: 28, result: "AB".to_string()},
+        TestCase{column_number: 701, result: "ZY".to_string()},
+        TestCase{column_number: 703, result: "AAA".to_string()},
     ];
 
     for test_case in cases {
