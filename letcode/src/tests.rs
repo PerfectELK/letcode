@@ -25,3 +25,26 @@ fn convert_to_title(){
         );
     }
 }
+
+#[test]
+fn title_to_number(){
+    struct TestCase {
+        column_title: String,
+        result: i32,
+    }  
+    
+    let cases = vec![
+        TestCase{column_title: "A".to_string(), result: 1,},
+        TestCase{column_title: "Z".to_string(), result: 26,},
+        TestCase{column_title: "AZ".to_string(), result: 52,},
+        TestCase{column_title: "AAA".to_string(), result: 703,},
+    ];
+    
+    for test_case in cases {
+        let result = Solution::title_to_number(test_case.column_title.clone());
+        assert_eq!(
+            test_case.result, result,
+            "Input {}", test_case.column_title
+        );
+    }
+}
