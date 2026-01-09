@@ -48,3 +48,28 @@ fn title_to_number(){
         );
     }
 }
+
+#[test]
+fn is_power_of_two(){
+    struct TestCase {
+        n: i32,
+        result: bool,
+    }
+    
+    let cases = vec![
+        TestCase{n: 1, result: true,},
+        TestCase{n: 2, result: true,},
+        TestCase{n: 3, result: false,},
+        TestCase{n: 16, result: true,},
+        TestCase{n: 38, result: false,},
+    ];
+    
+    for test_case in cases {
+        let result = Solution::is_power_of_two(test_case.n);
+        assert_eq!(
+            test_case.result, result,
+            "Input {}", test_case.n
+        )
+    }
+
+}
