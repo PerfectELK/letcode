@@ -37,6 +37,19 @@ impl Solution {
         }
         n & (n -1) == 0
     }
+
+    pub fn missing_number(nums: Vec<i32>) -> i32 {
+        let mut cloned = nums.clone();
+        cloned.sort();
+        
+        for (i, val) in cloned.iter().enumerate() {
+            if i as i32 != *val {
+                return i as i32;
+            }
+        }
+        
+        cloned[cloned.len() - 1] + 1
+    }
 }
 
 

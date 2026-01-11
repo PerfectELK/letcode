@@ -73,3 +73,35 @@ fn is_power_of_two(){
     }
 
 }
+
+#[test]
+fn missing_number(){
+    struct TestCase {
+        nums: Vec<i32>,
+        result: i32,
+    }
+    
+    let cases = vec![
+        TestCase{
+            nums: vec![3,0,1],
+            result: 2,
+        },        
+        TestCase{
+            nums: vec![0,1],
+            result: 2,
+        },        
+        TestCase{
+            nums: vec![9,6,4,2,3,5,7,0,1],
+            result: 8,
+        },
+    ];
+    
+    for test_case in cases {
+        let result = Solution::missing_number(test_case.nums.clone());
+        assert_eq!(
+            test_case.result, result,
+            "Input {:?}", test_case.nums
+        )
+    }
+
+}
