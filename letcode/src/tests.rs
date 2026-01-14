@@ -1,4 +1,4 @@
-use crate::Solution;
+use crate::{ListNode, Solution};
 
 #[test]
 fn convert_to_title(){
@@ -104,4 +104,50 @@ fn missing_number(){
         )
     }
 
+}
+#[test]
+fn is_palindrome() {
+    struct TestCase {
+        head:  Option<Box<ListNode>>,
+        result: bool,
+    }
+
+    let cases = vec![
+        TestCase{
+            head: Some(Box::new(
+                ListNode{
+                    val:1,
+                    next: Some(Box::new(ListNode{
+                        val:2,
+                        next: Some(Box::new(ListNode{
+                            val: 2,
+                            next: Some(Box::new(
+                            ListNode{
+                                val: 1,
+                                next: None,
+                            }
+                        ))
+                    })),
+                }))})),
+            result: true,
+        },
+        TestCase{
+            head: Some(Box::new(
+                ListNode{
+                    val:1,
+                    next: Some(Box::new(ListNode{
+                        val:2,
+                        next: None,
+                }))})),
+            result: false,
+        },
+    ];
+
+    for test_case in cases {
+        let result = Solution::is_palindrome(test_case.head.clone());
+        assert_eq!(
+            test_case.result, result,
+            "Input {:?}", test_case.head
+        )
+    }
 }

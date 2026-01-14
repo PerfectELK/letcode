@@ -1,5 +1,12 @@
 mod tests;
 
+// Definition for singly-linked list.
+#[derive(PartialEq, Eq, Clone, Debug)]
+pub struct ListNode {
+  pub val: i32,
+  pub next: Option<Box<ListNode>>
+}
+
 struct Solution;
 impl Solution {
     pub fn convert_to_title(column_number: i32) -> String {
@@ -49,6 +56,24 @@ impl Solution {
         }
         
         cloned[cloned.len() - 1] + 1
+    }
+
+    pub fn is_palindrome(head: Option<Box<ListNode>>) -> bool {
+        let mut curr = head.as_ref();
+        let mut arr: Vec<i32> = vec![];
+        while let Some(curr_node) = curr {
+            arr.push(curr_node.val);
+            curr = curr_node.next.as_ref();
+        }
+        
+        let mut i = 0;
+        while i < arr.len()/2 {
+            if arr[i] != arr[arr.len()-1 - i] {
+                return false;
+            }
+            i += 1;
+        }
+        true
     }
 }
 
