@@ -77,6 +77,40 @@ impl Solution {
     }
 }
 
+struct MyQueue {
+    stack: Vec<i32>,
+}
+
+
+impl MyQueue {
+    fn new() -> Self {
+        MyQueue{
+            stack: vec![],
+        }
+    }
+
+    fn push(&mut self, x: i32) {
+        self.stack.push(x);
+    }
+
+    fn pop(&mut self) -> i32 {
+        if self.empty() {
+            0;
+        }
+        self.stack.remove(0)
+    }
+
+    fn peek(&self) -> i32 {
+        if self.empty() {
+            0;
+        }
+        self.stack[0]
+    }
+
+    fn empty(&self) -> bool {
+        self.stack.is_empty()
+    }
+}
 
 
 fn main() {
